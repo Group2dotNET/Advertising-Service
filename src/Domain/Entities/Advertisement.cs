@@ -1,5 +1,8 @@
 ﻿namespace Domain.Entities
 {
+	/// <summary>
+	/// Объявление
+	/// </summary>
 	public class Advertisement
 	{
 		public int Id { get; set; }
@@ -14,14 +17,7 @@
 
 		public required Category Category { get; set; }
 
-		// характеристики для товара
-
-		// изображения
-
-		public string Owner { get; set; }
-
-		// отзывы
-
-		// местоположение
+		// TODO: Добавить поля: характеристики объявления, владелец объявления, отзывы принадлежащие объявлению,
+		// местоположение и изображения
 	}
 }

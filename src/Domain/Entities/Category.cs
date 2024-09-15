@@ -1,5 +1,8 @@
 ﻿namespace Domain.Entities
 {
+	/// <summary>
+	/// Категория
+	/// </summary>
 	public class Category
 	{
 		public int Id { get; set; }
@@ -10,8 +13,6 @@
 
 		public int? ParentId { get; set; }
 
-		// фильтры
-
-		// характеристики для категории
+		// TODO: Добавить поля: набор фильтров для объявления и набор характеристик для объявления
 	}
 }
