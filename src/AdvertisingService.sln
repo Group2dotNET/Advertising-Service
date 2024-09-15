@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreService", "CoreService", "{FE791487-4E6D-4BA7-9233-FB61CF15705D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{80AC5B41-1EEE-41B4-9C1E-FB7F4D5FA352}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{597647D7-80F6-45DC-9ACF-CBB50256CB12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Entities", "Domain.Entities\Domain.Entities.csproj", "{BEFFF0B7-B6B0-48C9-B54F-867BC048CB0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,16 +13,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{597647D7-80F6-45DC-9ACF-CBB50256CB12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{597647D7-80F6-45DC-9ACF-CBB50256CB12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{597647D7-80F6-45DC-9ACF-CBB50256CB12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{597647D7-80F6-45DC-9ACF-CBB50256CB12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEFFF0B7-B6B0-48C9-B54F-867BC048CB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEFFF0B7-B6B0-48C9-B54F-867BC048CB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEFFF0B7-B6B0-48C9-B54F-867BC048CB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEFFF0B7-B6B0-48C9-B54F-867BC048CB0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{597647D7-80F6-45DC-9ACF-CBB50256CB12} = {FE791487-4E6D-4BA7-9233-FB61CF15705D}
+		{BEFFF0B7-B6B0-48C9-B54F-867BC048CB0C} = {80AC5B41-1EEE-41B4-9C1E-FB7F4D5FA352}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {71C87EF6-3A34-4F9F-AC4E-55214E88150A}
