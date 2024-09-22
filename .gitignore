@@ -12,3 +12,6 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+
+#drawio backup files
+*.drawio.bkp
