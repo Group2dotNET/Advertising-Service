@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities
+﻿namespace AdService.Domain.Entities
 {
 	/// <summary>
 	/// Объявление
@@ -17,7 +17,10 @@
 
 		public required Category Category { get; set; }
 
-		// TODO: Добавить поля: характеристики объявления, владелец объявления, отзывы принадлежащие объявлению,
-		// местоположение и изображения
+		public List<Characteristic>? Characteristics { get; set; }
+
+		public required User Owner { get; set; }
+
+		public Location? Location { get; set; }
 	}
 }

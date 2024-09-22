@@ -1,4 +1,4 @@
-﻿namespace Domain.Entities
+﻿namespace AdService.Domain.Entities
 {
 	/// <summary>
 	/// Категория
@@ -13,6 +13,6 @@
 
 		public int? ParentId { get; set; }
 
-		// TODO: Добавить поля: набор фильтров для объявления и набор характеристик для объявления
+		// TODO: Добавить поля: набор фильтров
 	}
 }
