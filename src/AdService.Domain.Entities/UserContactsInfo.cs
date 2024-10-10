@@ -1,13 +1,27 @@
 ﻿namespace AdService.Domain.Entities
 {
-	public class UserContactsInfo
+	/// <summary>
+	/// Контактная информация пользователя
+	/// </summary>
+	public class UserContactInfo
 	{
 		public int Id { get; set; }
 
-		public string? Email { get; set; }
+		/// <summary>
+		/// Тип контактной информации
+		/// </summary>
+		public required string Type { get; set; }
 
-		public string? PhoneNumber { get; set; }
+		/// <summary>
+		/// Контакт пользователя
+		/// </summary>
+		public string? Value { get; set; }
 
-		public Dictionary<string, string>? SocialMedias { get; set; }
+		/// <summary>
+		/// Пользователь
+		/// </summary>
+		public required User User { get; set; }
+
+		public required int UserId { get; set; }
 	}
 }

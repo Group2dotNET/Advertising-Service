@@ -7,12 +7,21 @@
 	{
 		public int Id { get; set; }
 
-		public required string Title { get; set; }
+		/// <summary>
+		/// Имя категории
+		/// </summary>
+		public required string Name { get; set; }
 
+		/// <summary>
+		/// Описание категории
+		/// </summary>
 		public string? Description { get; set; }
 
-		public int? ParentId { get; set; }
+		/// <summary>
+		/// Родительская категория
+		/// </summary>
+		public Category? ParentCategory { get; set; }
 
-		// TODO: Добавить поля: набор фильтров
+		public int? ParentId { get; set; }
 	}
 }

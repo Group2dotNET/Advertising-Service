@@ -1,19 +1,25 @@
 ﻿namespace AdService.Domain.Entities
 {
+	/// <summary>
+	/// Пользователь
+	/// </summary>
 	public class User
 	{
-		public int Id { get; set; }
+		public int Id { get; set; } 
 
+		/// <summary>
+		/// Имя пользователя на ресурсе
+		/// </summary>
 		public required string Login { get; set; }
 
-		public required string FirstName { get; set; }
+		/// <summary>
+		/// Контактная информация пользователя
+		/// </summary>
+		public List<UserContactInfo>? Contacts { get; set; }
 
-		public required string LastName { get; set; }
-
-		public string? MiddleName { get; set; }
-
-		public required UserContactsInfo Contacts { get; set; }
-
+		/// <summary>
+		/// Внешний идентификатор пользователя
+		/// </summary>
 		public int ExternalId { get; set; }
 	}
 }
