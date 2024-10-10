@@ -22,6 +22,6 @@
 		/// </summary>
 		public Category? ParentCategory { get; set; }
 
-		public int? ParentId { get; set; }
+		public int? ParentCategoryId { get; set; }
 	}
 }
