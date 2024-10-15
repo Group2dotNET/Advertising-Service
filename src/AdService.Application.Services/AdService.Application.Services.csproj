@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AdService.Application.Abstractions\AdService.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\AdService.Application.Contracts\AdService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\AdService.Domain.Entities\AdService.Domain.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
