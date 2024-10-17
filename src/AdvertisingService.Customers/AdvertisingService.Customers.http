@@ -1,0 +1,6 @@
+@AdvertisingService.Customers_HostAddress = http://localhost:5001
+
+GET {{AdvertisingService.Customers_HostAddress}}/authorize/
+Accept: application/json
+
+###
