@@ -4,7 +4,7 @@ namespace AnnouncementsService.Domain.Abstractions.Services;
 
 public interface IAnnouncementsService
 {
-	public Task<IList<ShortAnnouncementDto>> GetAllAnnouncementsAsync();
+	public Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync();
 }
 
 public class ShortAnnouncementDto
