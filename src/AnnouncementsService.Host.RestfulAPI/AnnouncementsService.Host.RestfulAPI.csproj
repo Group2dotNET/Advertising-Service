@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AnnouncementsSerivice.Application.Services\AnnouncementsSerivice.Application.Services.csproj" />
+    <ProjectReference Include="..\AnnouncementsService.Domain.Abstractions\AnnouncementsService.Domain.Abstractions.csproj" />
+    <ProjectReference Include="..\AnnouncementsService.Infrastructure.EfDbContext\AnnouncementsService.Infrastructure.EfDbContext.csproj" />
+    <ProjectReference Include="..\AnnouncementsService.Infrastructure.Repositories\AnnouncementsService.Infrastructure.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

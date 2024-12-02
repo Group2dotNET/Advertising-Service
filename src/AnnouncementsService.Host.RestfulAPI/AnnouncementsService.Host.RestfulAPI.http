@@ -1,0 +1,6 @@
+@AnnouncementsService.Host.RestfulAPI_HostAddress = http://localhost:5287
+
+GET {{AnnouncementsService.Host.RestfulAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
