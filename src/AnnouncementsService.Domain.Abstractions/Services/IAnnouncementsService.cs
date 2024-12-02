@@ -2,7 +2,7 @@
 
 public interface IAnnouncementsService
 {
-	public Task<IList<ShortAnnouncementDto>> GetAllAnnouncementsAsync();
+	public Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync();
 }
 
 public class ShortAnnouncementDto
