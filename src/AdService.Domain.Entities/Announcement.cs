@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Объявление
 	/// </summary>
-	public class Advertisement
+	public class Announcement
 	{
 		public int Id { get; set; }
 
