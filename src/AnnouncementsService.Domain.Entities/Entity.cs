@@ -1,4 +1,4 @@
-﻿namespace AdService.Domain.Entities;
+﻿namespace AnnouncementsService.Domain.Entities;
 
 public abstract class Entity<T> where T : struct
 {

@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿namespace AnnouncementsService.Domain.Entities;
+
+/// <summary>
 /// Объявление
 /// </summary>
 public class Announcement : Entity<long>
