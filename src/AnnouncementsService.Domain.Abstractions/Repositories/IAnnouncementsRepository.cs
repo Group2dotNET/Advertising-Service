@@ -1,4 +1,4 @@
-﻿using AdService.Domain.Entities;
+﻿using AnnouncementsService.Domain.Entities;
 
 namespace AnnouncementsService.Domain.Abstractions.Repositories;
 

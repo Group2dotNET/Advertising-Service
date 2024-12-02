@@ -1,6 +1,4 @@
-﻿using AdService.Domain.Entities;
-
-namespace AnnouncementsService.Domain.Abstractions.Services;
+﻿namespace AnnouncementsService.Domain.Abstractions.Services;
 
 public interface IAnnouncementsService
 {
