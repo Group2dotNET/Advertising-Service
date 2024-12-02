@@ -1,4 +1,4 @@
-﻿namespace AdService.Domain.Entities;
+﻿namespace AnnouncementsService.Domain.Entities;
 
 /// <summary>
 /// Пользователь

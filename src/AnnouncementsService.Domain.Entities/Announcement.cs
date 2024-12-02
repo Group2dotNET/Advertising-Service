@@ -1,10 +1,12 @@
-﻿namespace AdService.Domain.Entities;
+﻿namespace AnnouncementsService.Domain.Entities;
 
 /// <summary>
 /// Объявление
 /// </summary>
 public class Announcement : Entity<long>
 {
+		public int Id { get; set; }
+
 	/// <summary>
 	/// Заголовок
 	/// </summary>
@@ -30,12 +32,10 @@ public class Announcement : Entity<long>
 	/// </summary>
 	public required Category Category { get; set; }
 
-	//public required int CategoryId { get; set; }
 
 	/// <summary>
 	/// Владелец
 	/// </summary>
 	public required User Owner { get; set; }
 
-	//public required int OwnerId { get; set; }
 }
