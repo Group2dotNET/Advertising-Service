@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdService", "AdService", "{2EB37FB2-6A6D-49A6-9EF8-61FC42B8272D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnnouncementsService", "AnnouncementsService", "{2EB37FB2-6A6D-49A6-9EF8-61FC42B8272D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{3FA6BF52-BD33-4711-A30B-11A2A81F3CEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Domain.Entities", "AdService.Domain.Entities\AdService.Domain.Entities.csproj", "{4F27DEDB-D60D-43C0-93C7-185AFEE60E3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnouncementsService.Domain.Entities", "AdService.Domain.Entities\AnnouncementsService.Domain.Entities.csproj", "{4F27DEDB-D60D-43C0-93C7-185AFEE60E3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
