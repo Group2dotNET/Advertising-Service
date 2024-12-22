@@ -1,6 +1,7 @@
 ﻿using AdvertisingService.Customers.DTO;
 using AdvertisingService.Customers.Entities;
-using AdvertisingService.Customers.Services;
+using AdvertisingService.Customers.Services.Abstract;
+using AdvertisingService.Customers.Services.Concrete;
 using AdvertisingService.Customers.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -15,15 +16,20 @@ namespace AdvertisingService.Customers.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<Customer> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtTokenService _jwtTokenService;
+        private readonly IAdminService _adminService;
 
-        public AccountController(UserManager<Customer> userManager, IJwtTokenService jwtTokenService)
+        public AccountController(UserManager<Customer> userManager, RoleManager<IdentityRole> roleManager, IJwtTokenService jwtTokenService/*, IAdminService adminService*/)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _jwtTokenService = jwtTokenService;
+            _adminService = new AdminService(userManager, roleManager);
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegisterDto registerUser)
         {
             if (registerUser == null)
@@ -42,6 +48,7 @@ namespace AdvertisingService.Customers.Controllers
         }
 
         [HttpPost("authorize")]
+        [AllowAnonymous]
         public async Task<IActionResult> Authorize([FromBody] UserLoginDto loginUser)
         {
             Customer? user = _userManager.Users.Single(u => u.UserName == loginUser.UserName);
@@ -56,6 +63,18 @@ namespace AdvertisingService.Customers.Controllers
                 var token = await _jwtTokenService.GenerateToken(loginUser.UserName, roles);
                 return Ok(token);
             }
+        }
+
+        [HttpPost("setrole")]
+        public async Task<IActionResult> SetRoleToUser([FromBody] UserRoleDto userRole)
+        {
+            Task addRole = _adminService.AddRoleAsync(userRole.role);
+            Customer? user = _userManager.Users.Single(u => u.UserName == userRole.userName);
+            if (user == null) return BadRequest($"Пользователя с логином {userRole.userName} не существует");
+            await addRole;
+            Task setRole = _adminService.SetRoleAsync(user, userRole.role);
+            await setRole;
+            return setRole.IsCompletedSuccessfully ? Ok() : BadRequest($"Ошибка при установке пользователю {userRole.userName} роли {userRole.role}");
         }
     }
 }

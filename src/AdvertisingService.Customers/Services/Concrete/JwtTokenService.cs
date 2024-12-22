@@ -1,12 +1,13 @@
 ﻿using AdvertisingService.Customers.DTO;
 using AdvertisingService.Customers.Entities;
+using AdvertisingService.Customers.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace AdvertisingService.Customers.Services
+namespace AdvertisingService.Customers.Services.Concrete
 {
     public class JwtTokenService : IJwtTokenService
     {
