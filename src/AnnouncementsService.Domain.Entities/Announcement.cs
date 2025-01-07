@@ -5,8 +5,6 @@
 /// </summary>
 public class Announcement : Entity<long>
 {
-		public int Id { get; set; }
-
 	/// <summary>
 	/// Заголовок
 	/// </summary>
@@ -31,7 +29,6 @@ public class Announcement : Entity<long>
 	/// Категория
 	/// </summary>
 	public required Category Category { get; set; }
-
 
 	/// <summary>
 	/// Владелец
