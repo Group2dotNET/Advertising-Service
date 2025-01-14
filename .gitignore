@@ -15,3 +15,4 @@ bld/
 
 #drawio backup files
 *.drawio.bkp
+/src/AdvertisingService.UI
