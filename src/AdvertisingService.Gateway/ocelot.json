@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/authorize",
+      "DownstreamPathTemplate": "/api/Account/authorize",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -9,10 +9,10 @@
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/api/Account/authorize",
+      "UpstreamPathTemplate": "/authorize",
       "UpstreamHttpMethod": [ "Post" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "",
         "AllowedScopes": []
       },
       "RateLimitOptions": {
@@ -24,7 +24,82 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/ads",
+      "DownstreamPathTemplate": "/api/Account/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "",
+        "AllowedScopes": []
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Account/setrole",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/setrole",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "Admin"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Account/updateinfo",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/updateinfo",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "User"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/Ads/all",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -32,15 +107,12 @@
           "Port": 5002
         }
       ],
-      "UpstreamPathTemplate": "/api/Ads/all",
+      "UpstreamPathTemplate": "/ads",
       "UpstreamHttpMethod": [ "Get" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "",
         "AllowedScopes": []
       },
-      //"RouteClaimsRequirement": {
-      //  "Role": "Administrator"
-      //},
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -53,6 +125,12 @@
       }
     }
   ],
+  //"Aggregates": [
+  //  {
+  //    "UpstreamPathTemplate": "/",
+  //    "RouteKeys": ["Key1", "Key2"]
+  //  }
+  //],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"
   }

@@ -1,10 +1,13 @@
 
 using AdvertisingService.Customers.Entities;
 using AdvertisingService.Customers.Repository;
-using AdvertisingService.Customers.Services;
+using AdvertisingService.Customers.Services.Abstract;
+using AdvertisingService.Customers.Services.Concrete;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AdvertisingService.Customers
@@ -17,7 +20,8 @@ namespace AdvertisingService.Customers
 
             // Add services to the container.
             builder.Services.AddDbContext<EFContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
-            builder.Services.AddSingleton<IJwtTokenService, JwtTokenService>();
+            builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+            //builder.Services.AddSingleton<IAdminService, AdminService>();
             builder.Services.AddIdentity<Customer, IdentityRole>(options  =>
             {
                 options.Password.RequiredLength = 6;
@@ -44,6 +48,12 @@ namespace AdvertisingService.Customers
                     IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
             });
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq();
+            });
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

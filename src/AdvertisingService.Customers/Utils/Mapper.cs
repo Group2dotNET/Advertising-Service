@@ -1,4 +1,4 @@
-﻿using AdvertisingService.Customers.DTO;
+﻿using AdvertisingService.Customers.Contracts;
 using AdvertisingService.Customers.Entities;
 
 namespace AdvertisingService.Customers.Utils
@@ -15,6 +15,17 @@ namespace AdvertisingService.Customers.Utils
                 Email = dto.Email,
                 UserName = dto.Email
             };
+        }
+        public static Customer MapInfo(UserInfoDto dto, Customer user)
+        {
+            user.LastName = dto.LastName;
+            user.FirstName = dto.FirstName;
+            user.MiddleName = dto.MiddleName;
+            user.Birthday = dto.Birthday;
+            user.PhoneNumber = dto.PhoneNumber;
+            user.Address = dto.Address;
+            user.Bio = dto.Bio;
+            return user;
         }
     }
 }

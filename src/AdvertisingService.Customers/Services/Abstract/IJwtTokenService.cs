@@ -1,6 +1,6 @@
-﻿using AdvertisingService.Customers.DTO;
+﻿using AdvertisingService.Customers.Contracts;
 
-namespace AdvertisingService.Customers.Services
+namespace AdvertisingService.Customers.Services.Abstract
 {
     public interface IJwtTokenService
     {
