@@ -27,9 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{5E0857FE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnouncementsService.Host.RestfulAPI", "AnnouncementsService.Host.RestfulAPI\AnnouncementsService.Host.RestfulAPI.csproj", "{6FA435C2-52CD-48ED-9EFA-429C08FC3C06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnouncementsService.Infrastructure.Repositories", "AnnouncementsService.Infrastructure.Repositories\AnnouncementsService.Infrastructure.Repositories.csproj", "{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertisingService.UI", "AdvertisingService.UI\AdvertisingService.UI.csproj", "{E474F31F-A45B-4784-B4EE-615E55685DF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnouncementsService.Infrastructure.Repositories", "AnnouncementsService.Infrastructure.Repositories\AnnouncementsService.Infrastructure.Repositories.csproj", "{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,10 +67,6 @@ Global
 		{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E474F31F-A45B-4784-B4EE-615E55685DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E474F31F-A45B-4784-B4EE-615E55685DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E474F31F-A45B-4784-B4EE-615E55685DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E474F31F-A45B-4784-B4EE-615E55685DF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
