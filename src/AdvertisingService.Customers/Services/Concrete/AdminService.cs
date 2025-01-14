@@ -1,5 +1,7 @@
-﻿using AdvertisingService.Customers.Entities;
+﻿using AdvertisingService.Customers.Contracts;
+using AdvertisingService.Customers.Entities;
 using AdvertisingService.Customers.Services.Abstract;
+using AdvertisingService.Customers.Utils;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 

@@ -73,6 +73,32 @@
       }
     },
     {
+      "DownstreamPathTemplate": "/api/Account/updateinfo",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/updateinfo",
+      "UpstreamHttpMethod": [ "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "RouteClaimsRequirement": {
+        "Role": "User"
+      },
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "5s",
+        "PeriodTimespan": 1,
+        "Limit": 1
+      }
+    },
+    {
       "DownstreamPathTemplate": "/api/Ads/all",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -87,9 +113,6 @@
         "AuthenticationProviderKey": "",
         "AllowedScopes": []
       },
-      //"RouteClaimsRequirement": {
-      //  "Role": "Admin"
-      //},
       "RateLimitOptions": {
         "ClientWhitelist": [],
         "EnableRateLimiting": true,
@@ -102,6 +125,12 @@
       }
     }
   ],
+  //"Aggregates": [
+  //  {
+  //    "UpstreamPathTemplate": "/",
+  //    "RouteKeys": ["Key1", "Key2"]
+  //  }
+  //],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"
   }

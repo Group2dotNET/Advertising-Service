@@ -3,9 +3,8 @@ using AdvertisingService.Customers.Entities;
 
 namespace AdvertisingService.Customers.Services.Abstract
 {
-    public interface IAdminService
+    public interface IPersonalService
     {
-        public Task AddRoleAsync(string role);
-        public Task SetRoleAsync(Customer user, string role);
+        public Task<Customer> SaveUpdateInfo(UserInfoDto userInfo, Customer user);
     }
 }

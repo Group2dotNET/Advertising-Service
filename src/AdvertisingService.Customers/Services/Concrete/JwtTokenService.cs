@@ -1,4 +1,4 @@
-﻿using AdvertisingService.Customers.DTO;
+﻿using AdvertisingService.Customers.Contracts;
 using AdvertisingService.Customers.Entities;
 using AdvertisingService.Customers.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
@@ -24,8 +24,8 @@ namespace AdvertisingService.Customers.Services.Concrete
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                    new Claim(ClaimTypes.NameIdentifier, username),
-                    new Claim(ClaimTypes.Role, roles.Any() ? roles[0] : "")
+                    new Claim("User", username),
+                    new Claim("Role", roles.Any() ? roles[0] : "")
                 };
             var jwt = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],

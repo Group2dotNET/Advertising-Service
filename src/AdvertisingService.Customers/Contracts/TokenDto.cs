@@ -1,4 +1,4 @@
-﻿namespace AdvertisingService.Customers.DTO
+﻿namespace AdvertisingService.Customers.Contracts
 {
     public class TokenDto
     {
