@@ -1,4 +1,4 @@
-﻿using AdvertisingService.Customers.Contracts;
+﻿using Contracts;
 using AdvertisingService.Customers.Entities;
 
 namespace AdvertisingService.Customers.Services.Abstract

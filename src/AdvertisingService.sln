@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnouncementsService.Host.R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnouncementsService.Infrastructure.Repositories", "AnnouncementsService.Infrastructure.Repositories\AnnouncementsService.Infrastructure.Repositories.csproj", "{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{B88C268F-AC80-49D8-9131-DCA72E622324}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3B9A6F3-C8D6-4A8D-A6FF-41463B75EEA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B88C268F-AC80-49D8-9131-DCA72E622324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B88C268F-AC80-49D8-9131-DCA72E622324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B88C268F-AC80-49D8-9131-DCA72E622324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B88C268F-AC80-49D8-9131-DCA72E622324}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
