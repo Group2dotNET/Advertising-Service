@@ -51,7 +51,16 @@ namespace AdvertisingService.Customers
 
             builder.Services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq();
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(new Uri(builder.Configuration["MessageBroker:Host"]), h =>
+                    {
+                        h.Username(builder.Configuration["MessageBroker:Username"]);
+                        h.Password(builder.Configuration["MessageBroker:Password"]);
+                    });
+
+                    cfg.ConfigureEndpoints(context);
+                });
             });
 
             builder.Services.AddControllers();

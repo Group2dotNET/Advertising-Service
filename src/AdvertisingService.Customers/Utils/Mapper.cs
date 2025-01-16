@@ -1,5 +1,6 @@
 ﻿using AdvertisingService.Customers.Contracts;
 using AdvertisingService.Customers.Entities;
+using Contracts;
 
 namespace AdvertisingService.Customers.Utils
 {

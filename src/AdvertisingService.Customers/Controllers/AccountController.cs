@@ -1,4 +1,5 @@
 ﻿using AdvertisingService.Customers.Contracts;
+using Contracts;
 using AdvertisingService.Customers.Entities;
 using AdvertisingService.Customers.Services.Abstract;
 using AdvertisingService.Customers.Services.Concrete;
