@@ -2,12 +2,14 @@
 
 public interface IAnnouncementsService
 {
-	public Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync();
+	Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync();
+
+	Task<IEnumerable<ShortAnnouncementDto>?> GetAllRecentAnnouncementsAsync();
 }
 
 public class ShortAnnouncementDto
 {
-	public int Id { get; set; }
+	public long Id { get; set; }
 
 	/// <summary>
 	/// Заголовок объявления

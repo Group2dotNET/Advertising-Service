@@ -31,5 +31,11 @@ namespace AnnouncementsService.Infrastructure.Repositories
 		{
 			throw new NotImplementedException();
 		}
+
+		public async Task<IEnumerable<Announcement>?> GetAllRecentAsync()
+		{
+			var announcements = await GetAllAsync();
+			return announcements?.OrderByDescending(x => x.CreateDate);
+		}
 	}
 }

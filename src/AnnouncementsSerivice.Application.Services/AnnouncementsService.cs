@@ -17,4 +17,14 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 				Title = a.Title
 			}).ToList();
 	}
+
+	public async Task<IEnumerable<ShortAnnouncementDto>?> GetAllRecentAnnouncementsAsync()
+	{
+		var recentAnnouncements = await _announcementsRepository.GetAllRecentAsync();
+		return recentAnnouncements?.Select(a => new ShortAnnouncementDto()
+		{
+			Id = a.Id,
+			Title = a.Title,
+		});
+	}
 }
