@@ -22,10 +22,8 @@ namespace AnnouncementsService.Infrastructure.Repositories
 		public async Task<IEnumerable<Announcement>?> GetAllAsync()
 			=> await _dbContext.Announcements.ToArrayAsync();
 
-		public Task<Announcement?> GetAsync(int key)
-		{
-			throw new NotImplementedException();
-		}
+		public async Task<Announcement?> GetAsync(int key)
+			=> await _dbContext.Announcements.SingleOrDefaultAsync(x => x.Id == key);
 
 		public Task<bool> UpdateAsync(Announcement entity)
 		{

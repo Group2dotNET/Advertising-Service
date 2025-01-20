@@ -42,4 +42,19 @@ public class AnnouncementsController : ControllerBase
 			return BadRequest();
 		}
 	}
+
+	[HttpGet]
+	[Route("/Home/Announcements/{id}")]
+	public async Task<IActionResult> GetAnnouncement(int id)
+	{
+		try
+		{
+			var announcement = await _announcementsService.GetAnnouncement(id);
+			return Ok(announcement);
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 }

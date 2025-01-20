@@ -27,4 +27,22 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 			Title = a.Title,
 		});
 	}
+
+	public async Task<AnnouncementDto> GetAnnouncement(int id)
+	{
+		var announcement = await _announcementsRepository.GetAsync(id);
+		if (announcement == null)
+		{
+			throw new Exception("Ошибка! Объявления не найдено");
+		}
+
+		return new AnnouncementDto
+		{
+			Id = announcement.Id,
+			Title = announcement.Title,
+			Description = announcement.Description,
+			CategoryName = announcement.Category.Name,
+			LastUpdateDate = announcement.UpdateDate ?? announcement.CreateDate
+		};
+	}
 }
