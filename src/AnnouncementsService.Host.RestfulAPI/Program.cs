@@ -17,9 +17,11 @@ public class Program
 		builder.Services.AddSwaggerGen();
 
 		builder.Services.ConfigureDbContext();
-		builder.Services.AddScoped<IAnnouncementsRepository, AnnouncementsRepository>();
+		builder.Services.AddScoped<IAnnouncementsRepository, AnnouncementsRepository>()
+						.AddScoped<ICategoriesRepository, CategoriesRepository>();
 		builder.Services
-			.AddTransient<IAnnouncementsService, AnnouncementsSerivice.Application.Services.AnnouncementsService>();
+			.AddTransient<IAnnouncementsService, AnnouncementsSerivice.Application.Services.AnnouncementsService>()
+			.AddTransient<ICategoriesService, AnnouncementsSerivice.Application.Services.CategoriesService>();
 
 
 		var app = builder.Build();
