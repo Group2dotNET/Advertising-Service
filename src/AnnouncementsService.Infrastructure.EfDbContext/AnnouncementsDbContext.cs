@@ -7,4 +7,6 @@ public class AnnouncementsDbContext(DbContextOptions<AnnouncementsDbContext> opt
 	: DbContext(options)
 {
 	public DbSet<Announcement> Announcements { get; set; }
+
+	public DbSet<Category> Categories { get; set; }
 }
