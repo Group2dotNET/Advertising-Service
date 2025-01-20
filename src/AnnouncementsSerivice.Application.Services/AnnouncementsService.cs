@@ -5,11 +5,10 @@ namespace AnnouncementsSerivice.Application.Services;
 
 public class AnnouncementsService(IAnnouncementsRepository announcementsRepository) : IAnnouncementsService
 {
-	private readonly IAnnouncementsRepository _announcementsRepository = announcementsRepository;
 
 	public async Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync()
 	{
-		var announcements = await _announcementsRepository.GetAllAsync();
+		var announcements = await announcementsRepository.GetAllAsync();
 		return announcements?
 			.Select(a => new ShortAnnouncementDto()
 			{
@@ -20,8 +19,18 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 
 	public async Task<IEnumerable<ShortAnnouncementDto>?> GetAllRecentAnnouncementsAsync()
 	{
-		var recentAnnouncements = await _announcementsRepository.GetAllRecentAsync();
+		var recentAnnouncements = await announcementsRepository.GetAllRecentAsync();
 		return recentAnnouncements?.Select(a => new ShortAnnouncementDto()
+		{
+			Id = a.Id,
+			Title = a.Title,
+		});
+	}
+
+	public async Task<IEnumerable<ShortAnnouncementDto>?> GetAnnouncementsByCategory(int categoryId)
+	{
+		var announcementsByCategory = await announcementsRepository.GetAnnouncementsByCategoryAsync(categoryId);
+		return announcementsByCategory?.Select(a => new ShortAnnouncementDto
 		{
 			Id = a.Id,
 			Title = a.Title,

@@ -6,6 +6,8 @@ public interface IAnnouncementsService
 
 	Task<IEnumerable<ShortAnnouncementDto>?> GetAllRecentAnnouncementsAsync();
 
+	Task<IEnumerable<ShortAnnouncementDto>?> GetAnnouncementsByCategory(int categoryId);
+
 	Task<AnnouncementDto> GetAnnouncement(int id);
 }
 
