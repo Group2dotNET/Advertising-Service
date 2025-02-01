@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnnouncementsService.Infrastructure.EfDbContext.Migrations
 {
     [DbContext(typeof(AnnouncementsDbContext))]
-    [Migration("20250118115016_Add_relation_categories")]
-    partial class Add_relation_categories
+    [Migration("20250129192127_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,36 +29,38 @@ namespace AnnouncementsService.Infrastructure.EfDbContext.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("bigint")
+                        .HasColumnName("announcement_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("category_id");
 
                     b.Property<DateTimeOffset>("CreateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("create_date");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("OwnerId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("title");
 
                     b.Property<DateTimeOffset?>("UpdateDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("update_date");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("announcements_primary_key");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("Announcements");
+                    b.ToTable("announcements", (string)null);
                 });
 
             modelBuilder.Entity("AnnouncementsService.Domain.Entities.Category", b =>
@@ -86,89 +88,31 @@ namespace AnnouncementsService.Infrastructure.EfDbContext.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("AnnouncementsService.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("ExternalId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("AnnouncementsService.Domain.Entities.UserContactInfo", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserContactInfo");
-                });
-
             modelBuilder.Entity("AnnouncementsService.Domain.Entities.Announcement", b =>
                 {
                     b.HasOne("AnnouncementsService.Domain.Entities.Category", "Category")
-                        .WithMany()
+                        .WithMany("Announcements")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AnnouncementsService.Domain.Entities.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("AnnouncementsService.Domain.Entities.Category", b =>
                 {
                     b.HasOne("AnnouncementsService.Domain.Entities.Category", "ParentCategory")
-                        .WithMany()
+                        .WithMany("ChildCategories")
                         .HasForeignKey("ParentCategoryId");
 
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("AnnouncementsService.Domain.Entities.UserContactInfo", b =>
+            modelBuilder.Entity("AnnouncementsService.Domain.Entities.Category", b =>
                 {
-                    b.HasOne("AnnouncementsService.Domain.Entities.User", "User")
-                        .WithMany("Contacts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Announcements");
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("AnnouncementsService.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Contacts");
+                    b.Navigation("ChildCategories");
                 });
 #pragma warning restore 612, 618
         }
