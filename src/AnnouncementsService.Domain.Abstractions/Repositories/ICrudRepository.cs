@@ -2,7 +2,7 @@
 
 public interface ICrudRepository<TEntity, TKey>
 {
-	Task<TEntity[]?> GetAllAsync();
+	Task<IEnumerable<TEntity>?> GetAllAsync();
 
 	Task<TEntity?> GetAsync(TKey key);
 

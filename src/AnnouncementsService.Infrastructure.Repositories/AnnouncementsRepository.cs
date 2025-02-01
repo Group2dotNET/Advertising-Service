@@ -9,9 +9,10 @@ namespace AnnouncementsService.Infrastructure.Repositories
 	{
 		private readonly AnnouncementsDbContext _dbContext = dbContext;
 
-		public Task<bool> CreateAsync(Announcement entity)
+		public async Task<bool> CreateAsync(Announcement entity)
 		{
-			throw new NotImplementedException();
+			_dbContext.Announcements.Add(entity);
+			return (await _dbContext.SaveChangesAsync()) > 0;
 		}
 
 		public Task<bool> DeleteAsync(Announcement entity)
@@ -19,7 +20,7 @@ namespace AnnouncementsService.Infrastructure.Repositories
 			throw new NotImplementedException();
 		}
 
-		public async Task<Announcement[]?> GetAllAsync()
+		public async Task<IEnumerable<Announcement>?> GetAllAsync()
 			=> await _dbContext.Announcements.ToArrayAsync();
 
 		public async Task<Announcement?> GetAsync(int key)

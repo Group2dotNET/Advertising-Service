@@ -17,7 +17,7 @@ public class CategoriesRepository(AnnouncementsDbContext dbContext) : ICategorie
 		throw new NotImplementedException();
 	}
 
-	public async Task<Category[]?> GetAllAsync()
+	public async Task<IEnumerable<Category>?> GetAllAsync()
 		=> await dbContext.Categories.OrderBy(c => c.Name).ToArrayAsync();
 
 	public Task<Category?> GetAsync(int key)
@@ -32,4 +32,7 @@ public class CategoriesRepository(AnnouncementsDbContext dbContext) : ICategorie
 
 	public async Task<Category[]?> GetGeneralCategories()
 		=> await dbContext.Categories.Where(c => c.ParentCategory == null).ToArrayAsync();
+
+	public async Task<Category?> GetCategoryByNameAsync(string name)
+		=> await dbContext.Categories.AsNoTracking().SingleOrDefaultAsync(c => c.Name == name);
 }

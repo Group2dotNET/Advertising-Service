@@ -81,4 +81,19 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 			return BadRequest(ex.Message);
 		}
 	}
+
+	[HttpPost]
+	[Route("/Home/Announcements/CreateNew")]
+	public async Task<IActionResult> CreateAnnouncement(AnnouncementDto announcement)
+	{
+		try
+		{
+			bool result = await announcementsService.CreateAnnouncement(announcement);
+			return Ok(result ? "Success" : "Fail");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 }

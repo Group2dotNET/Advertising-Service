@@ -9,6 +9,8 @@ public interface IAnnouncementsService
 	Task<IEnumerable<ShortAnnouncementDto>?> GetAnnouncementsByCategory(int categoryId);
 
 	Task<AnnouncementDto> GetAnnouncement(int id);
+
+	Task<bool> CreateAnnouncement(AnnouncementDto announcement);
 }
 
 public class ShortAnnouncementDto
