@@ -32,7 +32,7 @@ public class Announcement : Entity<long>
 	/// <summary>
 	/// Категория
 	/// </summary>
-	public virtual required Category Category { get; set; }
+	public virtual Category? Category { get; set; }
 
 	/// <summary>
 	/// Владелец

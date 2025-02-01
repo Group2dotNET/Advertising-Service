@@ -1,9 +1,11 @@
 ﻿using AnnouncementsService.Domain.Abstractions.Repositories;
 using AnnouncementsService.Domain.Abstractions.Services;
+using AnnouncementsService.Domain.Entities;
 
 namespace AnnouncementsSerivice.Application.Services;
 
-public class AnnouncementsService(IAnnouncementsRepository announcementsRepository) : IAnnouncementsService
+public class AnnouncementsService(IAnnouncementsRepository announcementsRepository,
+								ICategoriesService categoriesService) : IAnnouncementsService
 {
 
 	public async Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync()
@@ -50,8 +52,23 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 			Id = announcement.Id,
 			Title = announcement.Title,
 			Description = announcement.Description,
-			CategoryName = announcement.Category.Name,
+			CategoryName = announcement.Category?.Name ?? "Нет категории",
 			LastUpdateDate = announcement.UpdateDate ?? announcement.CreateDate
 		};
+	}
+
+	public async Task<bool> CreateAnnouncement(AnnouncementDto announcement)
+	{
+		CategoryDto? category = await categoriesService.GetCategoryByName(announcement.CategoryName);
+		if (category == null)
+			throw new Exception("Не найдена указанная категория");
+
+		return await announcementsRepository.CreateAsync(new Announcement()
+		{
+			CategoryId = category.Id,
+			Title = announcement.Title,
+			Description = announcement.Description,
+			CreateDate = DateTimeOffset.UtcNow
+		});
 	}
 }
