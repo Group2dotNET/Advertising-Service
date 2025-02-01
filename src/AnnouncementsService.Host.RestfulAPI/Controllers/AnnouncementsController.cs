@@ -73,7 +73,7 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 	{
 		try
 		{
-			var announcement = await _announcementsService.GetAnnouncement(id);
+			var announcement = await announcementsService.GetAnnouncement(id);
 			return Ok(announcement);
 		}
 		catch (Exception ex)

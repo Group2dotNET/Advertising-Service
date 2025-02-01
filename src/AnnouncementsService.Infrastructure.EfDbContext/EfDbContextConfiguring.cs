@@ -10,8 +10,10 @@ public static class EntityFrameworkDbContextConfiguring
 	{
 		serviceCollection.AddDbContext<AnnouncementsDbContext>((serviceProvider, options) =>
 		{
-			options.UseNpgsql(serviceProvider.GetRequiredService<IConfiguration>()
-				.GetConnectionString("DatabaseConnection"));
+			options.UseLazyLoadingProxies()
+				.UseNpgsql(serviceProvider.GetRequiredService<IConfiguration>()
+				.GetConnectionString("DatabaseConnection"),
+				b => b.MigrationsAssembly("AnnouncementsService.Infrastructure.EfDbContext"));
 		});
 	}
 }

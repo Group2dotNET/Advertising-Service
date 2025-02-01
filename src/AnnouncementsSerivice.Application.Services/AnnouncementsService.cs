@@ -39,7 +39,7 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 
 	public async Task<AnnouncementDto> GetAnnouncement(int id)
 	{
-		var announcement = await _announcementsRepository.GetAsync(id);
+		var announcement = await announcementsRepository.GetAsync(id);
 		if (announcement == null)
 		{
 			throw new Exception("Ошибка! Объявления не найдено");
