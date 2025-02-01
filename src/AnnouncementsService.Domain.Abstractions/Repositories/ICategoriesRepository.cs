@@ -5,4 +5,6 @@ namespace AnnouncementsService.Domain.Abstractions.Repositories;
 public interface ICategoriesRepository : ICrudRepository<Category, int>
 {
 	Task<Category[]?> GetGeneralCategories();
+
+	Task<Category?> GetCategoryByNameAsync(string name);
 }
