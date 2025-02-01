@@ -15,9 +15,19 @@ namespace AnnouncementsService.Infrastructure.Repositories
 			return (await _dbContext.SaveChangesAsync()) > 0;
 		}
 
-		public Task<bool> DeleteAsync(Announcement entity)
+		public async Task<bool> DeleteAsync(int entityId)
 		{
-			throw new NotImplementedException();
+			var announcement = await _dbContext.Announcements.SingleOrDefaultAsync(a => a.Id == entityId);
+			if (announcement != null)
+			{
+				_dbContext.Announcements.Remove(announcement);
+				_dbContext.SaveChanges();
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		public async Task<IEnumerable<Announcement>?> GetAllAsync()

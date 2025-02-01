@@ -71,4 +71,7 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 			CreateDate = DateTimeOffset.UtcNow
 		});
 	}
+
+	public async Task<bool> DeleteAnnouncement(int announcementId)
+		=> await announcementsRepository.DeleteAsync(announcementId);
 }

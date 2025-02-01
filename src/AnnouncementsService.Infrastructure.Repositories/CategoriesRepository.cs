@@ -12,7 +12,7 @@ public class CategoriesRepository(AnnouncementsDbContext dbContext) : ICategorie
 		throw new NotImplementedException();
 	}
 
-	public Task<bool> DeleteAsync(Category entity)
+	public Task<bool> DeleteAsync(int entityId)
 	{
 		throw new NotImplementedException();
 	}

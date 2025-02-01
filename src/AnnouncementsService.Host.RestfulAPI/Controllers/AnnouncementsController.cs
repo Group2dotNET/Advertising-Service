@@ -1,11 +1,12 @@
 ﻿using AnnouncementsService.Domain.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace AnnouncementsService.Host.RestfulAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AnnouncementsController(IAnnouncementsService announcementsService, ICategoriesService categoriesService) 
+public class AnnouncementsController(IAnnouncementsService announcementsService, ICategoriesService categoriesService)
 	: ControllerBase
 {
 	[HttpGet]
@@ -16,7 +17,7 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 			var announcements = await announcementsService.GetAllAnnouncementsAsync();
 			return Ok(announcements);
 		}
-		catch 
+		catch
 		{
 			return BadRequest();
 		}
@@ -31,7 +32,7 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 			var recentAnnouncements = await announcementsService.GetAllRecentAnnouncementsAsync();
 			return Ok(recentAnnouncements);
 		}
-		catch 
+		catch
 		{
 			return BadRequest();
 		}
@@ -89,6 +90,21 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 		try
 		{
 			bool result = await announcementsService.CreateAnnouncement(announcement);
+			return Ok(result ? "Success" : "Fail");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
+	[HttpDelete]
+	[Route("/Home/Announcements/Delete/{announcementId}")]
+	public async Task<IActionResult> DeleteAnnouncement(int announcementId)
+	{
+		try
+		{
+			bool result = await announcementsService.DeleteAnnouncement(announcementId);
 			return Ok(result ? "Success" : "Fail");
 		}
 		catch (Exception ex)

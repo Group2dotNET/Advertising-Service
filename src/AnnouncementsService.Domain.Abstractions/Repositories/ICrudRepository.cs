@@ -10,5 +10,5 @@ public interface ICrudRepository<TEntity, TKey>
 
 	Task<bool> UpdateAsync(TEntity entity);
 
-	Task<bool> DeleteAsync(TEntity entity);
+	Task<bool> DeleteAsync(TKey entityId);
 }
