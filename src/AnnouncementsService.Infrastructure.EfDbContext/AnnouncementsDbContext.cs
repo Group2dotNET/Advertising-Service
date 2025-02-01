@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AnnouncementsService.Domain.Entities;
+using AnnouncementsService.Infrastructure.EfDbContext.Configurations;
 
 namespace AnnouncementsService.Infrastructure.EfDbContext;
 
@@ -9,4 +10,10 @@ public class AnnouncementsDbContext(DbContextOptions<AnnouncementsDbContext> opt
 	public DbSet<Announcement> Announcements { get; set; }
 
 	public DbSet<Category> Categories { get; set; }
+
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.ApplyConfiguration(new AnnouncementConfiguration());
+		modelBuilder.ApplyConfiguration(new CategoriesConfiguration());
+	}
 }
