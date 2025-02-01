@@ -15,9 +15,13 @@ public class Category : Entity<int>
 	/// </summary>
 	public string? Description { get; set; }
 
-	public Category? ParentCategory { get; set; }
+	public virtual Category? ParentCategory { get; set; }
 
-	//public int? ParentCategoryId { get; set; }
+	public int? ParentCategoryId { get; set; }
+
+	public virtual List<Category>? ChildCategories { get; set; }
+
+	public virtual List<Announcement>? Announcements { get; set; }
 
 	// TODO: Добавить поля: набор фильтров
 }

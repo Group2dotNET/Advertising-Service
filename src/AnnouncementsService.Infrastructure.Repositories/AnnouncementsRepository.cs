@@ -19,13 +19,11 @@ namespace AnnouncementsService.Infrastructure.Repositories
 			throw new NotImplementedException();
 		}
 
-		public async Task<IEnumerable<Announcement>?> GetAllAsync()
+		public async Task<Announcement[]?> GetAllAsync()
 			=> await _dbContext.Announcements.ToArrayAsync();
 
-		public Task<Announcement?> GetAsync(int key)
-		{
-			throw new NotImplementedException();
-		}
+		public async Task<Announcement?> GetAsync(int key)
+			=> await _dbContext.Announcements.SingleOrDefaultAsync(x => x.Id == key);
 
 		public Task<bool> UpdateAsync(Announcement entity)
 		{
@@ -37,5 +35,8 @@ namespace AnnouncementsService.Infrastructure.Repositories
 			var announcements = await GetAllAsync();
 			return announcements?.OrderByDescending(x => x.CreateDate);
 		}
+
+		public async Task<Announcement[]?> GetAnnouncementsByCategoryAsync(int categoryId)
+			=> await _dbContext.Announcements.Where(a => a.Category.Id == categoryId).OrderByDescending(x => x.CreateDate).ToArrayAsync();
 	}
 }

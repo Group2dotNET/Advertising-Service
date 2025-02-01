@@ -5,21 +5,15 @@ namespace AnnouncementsService.Host.RestfulAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AnnouncementsController : ControllerBase
+public class AnnouncementsController(IAnnouncementsService announcementsService, ICategoriesService categoriesService) 
+	: ControllerBase
 {
-	private readonly IAnnouncementsService _announcementsService;
-
-	public AnnouncementsController(IAnnouncementsService announcementsService)
-	{
-		_announcementsService = announcementsService;
-	}
-
 	[HttpGet]
 	public async Task<IActionResult> GetAllAnnouncements()
 	{
 		try
 		{
-			var announcements = await _announcementsService.GetAllAnnouncementsAsync();
+			var announcements = await announcementsService.GetAllAnnouncementsAsync();
 			return Ok(announcements);
 		}
 		catch 
@@ -34,12 +28,57 @@ public class AnnouncementsController : ControllerBase
 	{
 		try
 		{
-			var recentAnnouncements = await _announcementsService.GetAllRecentAnnouncementsAsync();
+			var recentAnnouncements = await announcementsService.GetAllRecentAnnouncementsAsync();
 			return Ok(recentAnnouncements);
 		}
 		catch 
 		{
 			return BadRequest();
+		}
+	}
+
+	[HttpGet]
+	[Route("/Home/Categories")]
+	public async Task<IActionResult> GetGeneralCategories()
+	{
+		try
+		{
+			var generalCategories = await categoriesService.GetGeneralCategories();
+			return Ok(generalCategories);
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
+	[HttpGet]
+	[Route("/Home/Categories/{id}")]
+	public async Task<IActionResult> GetAnnouncementsByCategory(int id)
+	{
+		try
+		{
+			var announcementsByCategory = await announcementsService.GetAnnouncementsByCategory(id);
+			return Ok(announcementsByCategory);
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
+	[HttpGet]
+	[Route("/Home/Announcements/{id}")]
+	public async Task<IActionResult> GetAnnouncement(int id)
+	{
+		try
+		{
+			var announcement = await announcementsService.GetAnnouncement(id);
+			return Ok(announcement);
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
 		}
 	}
 }

@@ -1,8 +1,11 @@
-﻿namespace AnnouncementsService.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AnnouncementsService.Domain.Entities;
 
 /// <summary>
 /// Объявление
 /// </summary>
+[Table("announcements")]
 public class Announcement : Entity<long>
 {
 	/// <summary>
@@ -25,14 +28,15 @@ public class Announcement : Entity<long>
 	/// </summary>
 	public DateTimeOffset? UpdateDate { get; set; }
 
+	public int CategoryId { get; set; }
 	/// <summary>
 	/// Категория
 	/// </summary>
-	public required Category Category { get; set; }
+	public virtual required Category Category { get; set; }
 
 	/// <summary>
 	/// Владелец
 	/// </summary>
-	public required User Owner { get; set; }
+	//public required User Owner { get; set; }
 
 }
