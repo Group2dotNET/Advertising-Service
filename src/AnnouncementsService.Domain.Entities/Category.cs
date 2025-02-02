@@ -15,6 +15,16 @@ public class Category : Entity<int>
 	/// </summary>
 	public int? ParentCategoryId { get; set; }
 
+	/// <summary>
+	/// Характеристики категории
+	/// </summary>
+	public string? Characteristics { get; set; }
+	
+	/// <summary>
+	/// Фильтры для категории
+	/// </summary>
+	public string? Filtres { get; set; }
+
 	#region Navigation Properties
 	/// <summary>
 	/// Список подкатегорий
@@ -31,6 +41,4 @@ public class Category : Entity<int>
 	/// </summary>
 	public virtual Category? ParentCategory { get; set; }
 	#endregion
-
-	// TODO: Добавить поля: набор фильтров, набор характеристик, изображение категории
 }
