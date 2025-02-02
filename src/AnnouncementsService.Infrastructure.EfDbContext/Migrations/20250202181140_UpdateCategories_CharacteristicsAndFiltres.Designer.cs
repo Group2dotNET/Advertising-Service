@@ -3,6 +3,7 @@ using System;
 using AnnouncementsService.Infrastructure.EfDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnnouncementsService.Infrastructure.EfDbContext.Migrations
 {
     [DbContext(typeof(AnnouncementsDbContext))]
-    partial class AnnouncementsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250202181140_UpdateCategories_CharacteristicsAndFiltres")]
+    partial class UpdateCategories_CharacteristicsAndFiltres
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
