@@ -15,7 +15,7 @@ namespace AdvertisingService.Chat.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ChatController(UnitOfWork unitOfWork, IMapper mapper)
+        public ChatController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

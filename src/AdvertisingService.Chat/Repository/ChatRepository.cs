@@ -20,6 +20,7 @@ namespace AdvertisingService.Chat.Repository
         public async Task<Entities.Chat> Create(ChatDto chatDto)
         {
             var chat = _mapper.Map<Entities.Chat>(chatDto);
+            chat.DateCreated = DateTime.UtcNow;
             await _context.Chats.AddAsync(chat);
             await _context.SaveChangesAsync();
             return chat;
@@ -48,20 +49,20 @@ namespace AdvertisingService.Chat.Repository
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(ChatDto chatDto)
         {
-            var messages = await _context.Messages
+            var messages = await _context.Messages.Include(m => m.Chat)
                 .Where(m => m.Chat.Receiver == chatDto.Sender && m.ReceiverDeleted == false
                         && m.Chat.Sender == chatDto.Receiver
                         || m.Chat.Receiver == chatDto.Receiver
                         && m.Chat.Sender == chatDto.Sender && m.SenderDeleted == false)
-                .OrderBy(m => m.DateSent)
-                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-            foreach (var message in messages.Where(m => m.DateRead == null && m.Receiver == chatDto.Sender))
+                .OrderBy(m => m.DateSent).ToListAsync();
+            foreach (var message in messages.Where(m => m.DateRead == null && m.Chat.Receiver == chatDto.Sender))
             {
                 message.DateRead = DateTime.UtcNow;
+                _context.Entry(message).State = EntityState.Modified;
             }
+            await _context.SaveChangesAsync();
 
-            return messages;
+            return messages.Select(m => _mapper.Map<MessageDto>(m));
         }
     }
 }

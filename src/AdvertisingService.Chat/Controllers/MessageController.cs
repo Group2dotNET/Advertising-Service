@@ -17,7 +17,7 @@ namespace AdvertisingService.Chat.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public MessageController(UnitOfWork unitOfWork, IMapper mapper)
+        public MessageController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -30,11 +30,10 @@ namespace AdvertisingService.Chat.Controllers
             return CreatedAtAction(nameof(Send), new { id = msg.Id }, msg);
         }
 
-        [HttpDelete("deletemsg/{id}")]
-        public async Task<ActionResult> Delete(long id)
+        [HttpDelete("deletemsg")]
+        public async Task<ActionResult> Delete([FromBody] DeleteMsgDto message)
         {
-            var username = User.FindFirst("User")?.Value;
-            Task delTask = _unitOfWork.MessageRepository.Delete(id, username);
+            Task delTask = _unitOfWork.MessageRepository.Delete(message);
             await delTask.ConfigureAwait(false);
             return delTask.IsCompletedSuccessfully ? Ok() : BadRequest("Ошибка при удалении сообщения");
         }

@@ -3,6 +3,7 @@ using AdvertisingService.Chat.Entities;
 using AdvertisingService.Chat.Interfaces;
 using AutoMapper;
 using Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdvertisingService.Chat.Repository
 {
@@ -19,22 +20,27 @@ namespace AdvertisingService.Chat.Repository
         public async Task<Message> Send(CreateMsgDto message)
         {
             var msg = _mapper.Map<Message>(message);
-            msg.DateSent = DateTime.UtcNow;
-            await _context.Messages.AddAsync(msg);
-            await _context.SaveChangesAsync();
+            var chat = await _context.Chats.FirstOrDefaultAsync(c => c.Sender == message.Sender && c.Receiver == message.Receiver);
+            if (chat != null)
+            {
+                msg.ChatId = chat.Id;
+                msg.DateSent = DateTime.UtcNow;
+                await _context.Messages.AddAsync(msg);
+                await _context.SaveChangesAsync();
+            }
             return msg;
         }
 
-        public async Task Delete(long messageId, string UserName)
+        public async Task Delete(DeleteMsgDto messageDto)
         {
-            var msg = await _context.Messages.FindAsync(messageId);
+            var msg = await _context.Messages.Include(m => m.Chat).FirstOrDefaultAsync(m => m.Id == messageDto.MessageId);
             if (msg != null)
             {
-                if (msg.Chat.Sender == UserName)
+                if (msg.Chat.Sender == messageDto.UserName)
                 {
                     msg.SenderDeleted = true;
                 }
-                else if (msg.Chat.Receiver == UserName)
+                else if (msg.Chat.Receiver == messageDto.UserName)
                 {
                     msg.ReceiverDeleted = true;
                 }
