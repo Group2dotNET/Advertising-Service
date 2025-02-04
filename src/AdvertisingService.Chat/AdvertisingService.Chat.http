@@ -1,0 +1,6 @@
+@AdvertisingService.Chat_HostAddress = http://localhost:5133
+
+GET {{AdvertisingService.Chat_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

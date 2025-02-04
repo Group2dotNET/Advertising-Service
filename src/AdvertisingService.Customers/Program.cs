@@ -21,7 +21,8 @@ namespace AdvertisingService.Customers
             // Add services to the container.
             builder.Services.AddDbContext<EFContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-            //builder.Services.AddSingleton<IAdminService, AdminService>();
+            //builder.Services.AddScoped<IAdminService, AdminService>();
+            //builder.Services.AddScoped<IPersonalService, PersonalService>();
             builder.Services.AddIdentity<Customer, IdentityRole>(options  =>
             {
                 options.Password.RequiredLength = 6;

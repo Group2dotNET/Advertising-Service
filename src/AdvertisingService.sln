@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnouncementsService.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{B88C268F-AC80-49D8-9131-DCA72E622324}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertisingService.Chat", "AdvertisingService.Chat\AdvertisingService.Chat.csproj", "{CFF780D9-C83A-420A-95E5-F0A112840B5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{B88C268F-AC80-49D8-9131-DCA72E622324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B88C268F-AC80-49D8-9131-DCA72E622324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B88C268F-AC80-49D8-9131-DCA72E622324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF780D9-C83A-420A-95E5-F0A112840B5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF780D9-C83A-420A-95E5-F0A112840B5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF780D9-C83A-420A-95E5-F0A112840B5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF780D9-C83A-420A-95E5-F0A112840B5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
