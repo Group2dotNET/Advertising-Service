@@ -9,13 +9,16 @@ namespace AdvertisingService.Chat.Profiles
     {
         public MessageProfile()
         {
+            CreateMap<Entities.Chat, ChatDto>();
+            CreateMap<ChatDto, Entities.Chat>();
             CreateMap<Message, MessageDto>()
-                .ForMember(dest => dest.Sender, opt => opt.MapFrom(src =>
+                .ForPath(dest => dest.Sender, opt => opt.MapFrom(src =>
                     src.Chat.Sender))
-                .ForMember(dest => dest.Receiver, opt => opt.MapFrom(src =>
+                .ForPath(dest => dest.Receiver, opt => opt.MapFrom(src =>
                     src.Chat.Receiver));
             CreateMap<MessageDto, Message>();
             CreateMap<Message, CreateMsgDto>();
+            CreateMap<CreateMsgDto, Message>();
         }
     }
 }
