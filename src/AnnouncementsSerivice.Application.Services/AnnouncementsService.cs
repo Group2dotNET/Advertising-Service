@@ -57,18 +57,18 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 		};
 	}
 
-	public async Task<bool> CreateAnnouncement(AnnouncementDto announcement)
-	{
-		CategoryDto? category = await categoriesService.GetCategoryByName(announcement.CategoryName);
-		if (category == null)
-			throw new Exception("Не найдена указанная категория");
+	//public async Task<bool> CreateAnnouncement(AnnouncementDto announcement)
+	//{
+	//	CategoryDto? category = await categoriesService.GetCategoryByName(announcement.CategoryName);
+	//	if (category == null)
+	//		throw new Exception("Не найдена указанная категория");
 
-		return await announcementsRepository.CreateAsync(new Announcement()
-		{
-			CategoryId = category.Id,
-			Title = announcement.Title,
-			Description = announcement.Description,
-			CreateDate = DateTimeOffset.UtcNow
-		});
-	}
+	//	return await announcementsRepository.CreateAsync(new Announcement()
+	//	{
+	//		CategoryId = category.Id,
+	//		Title = announcement.Title,
+	//		Description = announcement.Description,
+	//		CreateDate = DateTimeOffset.UtcNow
+	//	});
+	//}
 }

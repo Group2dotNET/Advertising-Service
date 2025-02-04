@@ -10,7 +10,7 @@ public interface IAnnouncementsService
 
 	Task<AnnouncementDto> GetAnnouncement(int id);
 
-	Task<bool> CreateAnnouncement(AnnouncementDto announcement);
+	//Task<bool> CreateAnnouncement(AnnouncementDto announcement);
 }
 
 public class ShortAnnouncementDto

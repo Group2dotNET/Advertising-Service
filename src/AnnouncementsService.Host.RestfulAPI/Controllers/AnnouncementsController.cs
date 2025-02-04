@@ -37,20 +37,20 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 		}
 	}
 
-	[HttpGet]
-	[Route("/Home/Categories")]
-	public async Task<IActionResult> GetGeneralCategories()
-	{
-		try
-		{
-			var generalCategories = await categoriesService.GetGeneralCategories();
-			return Ok(generalCategories);
-		}
-		catch (Exception ex)
-		{
-			return BadRequest(ex.Message);
-		}
-	}
+	//[HttpGet]
+	//[Route("/Home/Categories")]
+	//public async Task<IActionResult> GetGeneralCategories()
+	//{
+	//	try
+	//	{
+	//		var generalCategories = await categoriesService.GetGeneralCategories();
+	//		return Ok(generalCategories);
+	//	}
+	//	catch (Exception ex)
+	//	{
+	//		return BadRequest(ex.Message);
+	//	}
+	//}
 
 	[HttpGet]
 	[Route("/Home/Categories/{id}")]
@@ -82,18 +82,18 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 		}
 	}
 
-	[HttpPost]
-	[Route("/Home/Announcements/CreateNew")]
-	public async Task<IActionResult> CreateAnnouncement(AnnouncementDto announcement)
-	{
-		try
-		{
-			bool result = await announcementsService.CreateAnnouncement(announcement);
-			return Ok(result ? "Success" : "Fail");
-		}
-		catch (Exception ex)
-		{
-			return BadRequest(ex.Message);
-		}
-	}
+	//[HttpPost]
+	//[Route("/Home/Announcements/CreateNew")]
+	//public async Task<IActionResult> CreateAnnouncement(AnnouncementDto announcement)
+	//{
+	//	try
+	//	{
+	//		bool result = await announcementsService.CreateAnnouncement(announcement);
+	//		return Ok(result ? "Success" : "Fail");
+	//	}
+	//	catch (Exception ex)
+	//	{
+	//		return BadRequest(ex.Message);
+	//	}
+	//}
 }

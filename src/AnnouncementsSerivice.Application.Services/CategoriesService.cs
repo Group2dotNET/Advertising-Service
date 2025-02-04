@@ -61,7 +61,9 @@ public class CategoriesService(ICategoriesRepository categoriesRepository) : ICa
 		var category = await categoriesRepository.GetCategoryByNameAsync(savedCategory.Name);
 		if (category is null)
 		{
-			var parentCategory = await categoriesRepository.GetCategoryByNameAsync(savedCategory.ParentCategoryName);
+			var parentCategory = savedCategory.ParentCategoryName is null 
+												? null 
+												: await categoriesRepository.GetCategoryByNameAsync(savedCategory.ParentCategoryName);
 			return await categoriesRepository.CreateAsync(
 												new Category()
 												{
