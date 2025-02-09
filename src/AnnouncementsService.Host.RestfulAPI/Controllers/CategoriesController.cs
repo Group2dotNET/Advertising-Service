@@ -32,9 +32,11 @@ public class CategoriesController(ICategoriesService categoriesService, IMapper 
 	{
 		try
 		{
-			var generalCategories = (await categoriesService.GetGeneralCategoriesAsync())
-				?.Select(c => new SimpleCategoryModel() { Name = c.Name });
-			return Ok(generalCategories);
+			var generalCategories = await categoriesService.GetGeneralCategoriesAsync();
+			var categoryModels = generalCategories is null
+				? null
+				: mapper.Map<IEnumerable<SimpleCategoryModel>>(generalCategories);
+			return Ok(categoryModels);
 		}
 		catch (Exception ex)
 		{
@@ -47,9 +49,11 @@ public class CategoriesController(ICategoriesService categoriesService, IMapper 
 	{
 		try
 		{
-			var subcategories = (await categoriesService.GetGeneralSubcategoriesAsync(new ShortCategoryDto(categoryName)))
-				?.Select(c => new SimpleCategoryModel() { Name = c.Name });
-			return Ok(subcategories);
+			var subcategories = await categoriesService.GetGeneralSubcategoriesAsync(new ShortCategoryDto(categoryName));
+			var categoryModels = subcategories is null
+				? null
+				: mapper.Map<IEnumerable<SimpleCategoryModel>>(subcategories);
+			return Ok(categoryModels);
 		}
 		catch (Exception ex)
 		{
@@ -64,13 +68,7 @@ public class CategoriesController(ICategoriesService categoriesService, IMapper 
 		{
 			var category = await categoriesService.GetCategoryAsync(categoryName);
 			if (category == null) return BadRequest();
-			return Ok(new EditingCategoryModel()
-			{
-				Name = category.Name,
-				ParentCategoryName = category.ParentCategoryName,
-				Characteristics = category.Characteristics,
-				Filtres = category.Filtres
-			});
+			return Ok(mapper.Map<EditingCategoryModel>(category));
 		}
 		catch (Exception ex)
 		{
@@ -83,8 +81,7 @@ public class CategoriesController(ICategoriesService categoriesService, IMapper 
 	{
 		try
 		{
-			if (await categoriesService.SaveCategoryAsync(new FullCategoryDto(category.Name, category.ParentCategoryName,
-				category.Characteristics, category.Filtres)))
+			if (await categoriesService.SaveCategoryAsync(mapper.Map<FullCategoryDto>(category)))
 				return Ok("Success");
 			else
 				return BadRequest("Fail");
@@ -104,8 +101,7 @@ public class CategoriesController(ICategoriesService categoriesService, IMapper 
 			if (category == null) return NotFound( new { Message = "Категория не найдена" });
 
 
-			if (await categoriesService.SaveCategoryAsync(new FullCategoryDto(categoryData.Name, categoryData.ParentCategoryName,
-				categoryData.Characteristics, categoryData.Filtres)))
+			if (await categoriesService.SaveCategoryAsync(mapper.Map<FullCategoryDto>(categoryData)))
 				return Ok("Success");
 			else
 				return BadRequest("Fail");
