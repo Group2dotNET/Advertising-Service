@@ -2,11 +2,12 @@
 using AnnouncementsService.Domain.Abstractions.Repositories;
 using AnnouncementsService.Domain.Abstractions.Services;
 using AnnouncementsService.Domain.Entities;
+using MapsterMapper;
 using System.Diagnostics;
 
 namespace AnnouncementsSerivice.Application.Services;
 
-public class CategoriesService(ICategoriesRepository categoriesRepository) : ICategoriesService
+public class CategoriesService(ICategoriesRepository categoriesRepository, IMapper mapper) : ICategoriesService
 {
 	public async Task<bool> DeleteCategoryAsync(FullCategoryDto category)
 	{
@@ -24,14 +25,15 @@ public class CategoriesService(ICategoriesRepository categoriesRepository) : ICa
 		}
 	}
 
-	public async Task<IEnumerable<HierarchyCategoryDto>> GetAllCategoriesHierarchyAsync()
+	public async Task<IEnumerable<HierarchyCategoryDto>?> GetAllCategoriesWithSubcategories()
 	{
 		try
 		{
-			var generalCategories = ((await GetGeneralCategoriesAsync())?.Select(c => new HierarchyCategoryDto(c.Name, []))) 
-				?? throw new Exception($"Основные категории отсутствуют");
-			await FillInSubcategoriesAsync(generalCategories);
-			return generalCategories;
+			var allCategories = (await categoriesRepository.GetAllAsync())?.ToArray();
+			if (allCategories is null) return null;
+			var hierarchyCategories = mapper.Map<IEnumerable<Category>, IEnumerable<HierarchyCategoryDto>>
+				(allCategories.Where(c => c.ParentCategoryId == null));
+			return hierarchyCategories;
 		}
 		catch (Exception ex)
 		{
@@ -76,20 +78,6 @@ public class CategoriesService(ICategoriesRepository categoriesRepository) : ICa
 		else
 		{
 			return await categoriesRepository.UpdateAsync(category);
-		}
-	}
-
-	private async Task FillInSubcategoriesAsync(IEnumerable<HierarchyCategoryDto> parentCategories)
-	{
-		foreach (HierarchyCategoryDto parentCategory in parentCategories)
-		{
-			var subcategories = (await GetGeneralSubcategoriesAsync(new(parentCategory.Name)))
-				?.Select(s => new HierarchyCategoryDto(s.Name, []));
-			if (subcategories != null)
-			{
-				await FillInSubcategoriesAsync(subcategories);
-				parentCategory.Subcategories.AddRange(subcategories);
-			}
 		}
 	}
 }

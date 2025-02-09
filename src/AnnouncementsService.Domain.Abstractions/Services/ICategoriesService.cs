@@ -11,7 +11,7 @@ public interface ICategoriesService
 	/// Получение всех категорий в иерархическом виде
 	/// </summary>
 	/// <returns>Список всех категорий в иерархическом виде</returns>
-	Task<IEnumerable<HierarchyCategoryDto>> GetAllCategoriesHierarchyAsync();
+	Task<IEnumerable<HierarchyCategoryDto>?> GetAllCategoriesWithSubcategories();
 
 	/// <summary>
 	/// Получение основных категорий

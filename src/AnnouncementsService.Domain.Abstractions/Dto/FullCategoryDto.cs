@@ -8,3 +8,6 @@
 /// <param name="Characteristics">Характеристики категории</param>
 /// <param name="Filtres">Фильтры категории</param>
 public record FullCategoryDto(string Name, string? ParentCategoryName, string? Characteristics, string? Filtres);
+
+
+public record CategoryDto(string Name, string? ParentCategoryName);

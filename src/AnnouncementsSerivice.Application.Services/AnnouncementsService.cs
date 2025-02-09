@@ -4,8 +4,7 @@ using AnnouncementsService.Domain.Entities;
 
 namespace AnnouncementsSerivice.Application.Services;
 
-public class AnnouncementsService(IAnnouncementsRepository announcementsRepository,
-								ICategoriesService categoriesService) : IAnnouncementsService
+public class AnnouncementsService(IAnnouncementsRepository announcementsRepository) : IAnnouncementsService
 {
 
 	public async Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync()

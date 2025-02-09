@@ -1,16 +1,34 @@
 ﻿using AnnouncementsService.Domain.Abstractions.Dto;
 using AnnouncementsService.Domain.Abstractions.Services;
 using AnnouncementsService.Host.RestfulAPI.Models;
+using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnnouncementsService.Host.RestfulAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CategoriesController(ICategoriesService categoriesService) : ControllerBase
+public class CategoriesController(ICategoriesService categoriesService, IMapper mapper) : ControllerBase
 {
 	[HttpGet]
-	public async Task<IActionResult> GetAllGeneralCategories()
+	public async Task<IActionResult> GetAllCategories()
+	{
+		try
+		{
+			var categories = await categoriesService.GetAllCategoriesWithSubcategories();
+			var categoriesModel = categories is null 
+				? null 
+				: mapper.Map<IEnumerable<HierarchyCategoryDto>, IEnumerable<HierarchyCategoryModel>>(categories);
+			return Ok(categoriesModel);
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
+	[HttpGet("general")]
+	public async Task<IActionResult> GetGeneralCategories()
 	{
 		try
 		{
