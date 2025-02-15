@@ -83,6 +83,28 @@ namespace AdvertisingService.Chat.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("AdvertisingService.Chat.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("AdvertisingService.Chat.Entities.Message", b =>
                 {
                     b.HasOne("AdvertisingService.Chat.Entities.Chat", "Chat")

@@ -24,8 +24,16 @@ namespace AdvertisingService.Chat.Controllers
         [HttpPost("startchat")]
         public async Task<ActionResult> StartChat([FromBody] ChatDto chat)
         {
-            var chatCreated = await _unitOfWork.ChatRepository.Create(chat);
-            return CreatedAtAction(nameof(StartChat), new { id = chatCreated.Id }, chatCreated);
+            try
+            {
+                await _unitOfWork.ChatRepository.Create(chat);
+                await _unitOfWork.Commit();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("getmsgsthread")]

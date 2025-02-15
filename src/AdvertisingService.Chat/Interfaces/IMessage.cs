@@ -6,7 +6,7 @@ namespace AdvertisingService.Chat.Interfaces
 {
     public interface IMessage
     {
-        public Task<Message> Send(CreateMsgDto message);
+        public Task Send(CreateMsgDto message);
         public Task Delete(DeleteMsgDto message);
     }
 }

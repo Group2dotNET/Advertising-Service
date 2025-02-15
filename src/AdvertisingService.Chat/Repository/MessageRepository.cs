@@ -17,7 +17,7 @@ namespace AdvertisingService.Chat.Repository
             _mapper = mapper;
         }
 
-        public async Task<Message> Send(CreateMsgDto message)
+        public async Task Send(CreateMsgDto message)
         {
             var msg = _mapper.Map<Message>(message);
             var chat = await _context.Chats.FirstOrDefaultAsync(c => c.Sender == message.Sender && c.Receiver == message.Receiver);
@@ -26,9 +26,7 @@ namespace AdvertisingService.Chat.Repository
                 msg.ChatId = chat.Id;
                 msg.DateSent = DateTime.UtcNow;
                 await _context.Messages.AddAsync(msg);
-                await _context.SaveChangesAsync();
             }
-            return msg;
         }
 
         public async Task Delete(DeleteMsgDto messageDto)
@@ -45,7 +43,6 @@ namespace AdvertisingService.Chat.Repository
                     msg.ReceiverDeleted = true;
                 }
                 _context.Entry(msg).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                await _context.SaveChangesAsync();
             }
         }
     }

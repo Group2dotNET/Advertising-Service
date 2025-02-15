@@ -17,13 +17,15 @@ namespace AdvertisingService.Chat.Repository
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Entities.Chat> Create(ChatDto chatDto)
+        public async Task Create(ChatDto chatDto)
         {
-            var chat = _mapper.Map<Entities.Chat>(chatDto);
-            chat.DateCreated = DateTime.UtcNow;
-            await _context.Chats.AddAsync(chat);
-            await _context.SaveChangesAsync();
-            return chat;
+            bool chatExists = await _context.Chats.AnyAsync(x => x.Sender == chatDto.Sender && x.Receiver == chatDto.Receiver);
+            if (!chatExists)
+            {
+                var chat = _mapper.Map<Entities.Chat>(chatDto);
+                chat.DateCreated = DateTime.UtcNow;
+                await _context.Chats.AddAsync(chat);
+            }
         }
 
         public async Task Delete(long Id)
@@ -33,7 +35,6 @@ namespace AdvertisingService.Chat.Repository
             {
                 _context.Chats.Remove(chat);
             }
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<MessageDto>> GetMessagesForUser(string UserName)

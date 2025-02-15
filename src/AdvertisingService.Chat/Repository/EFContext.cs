@@ -9,7 +9,17 @@ namespace AdvertisingService.Chat.Repository
         {
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Entities.Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public void CommitTransaction()
+        {
+            Database.CommitTransaction();
+        }
+
+        public void RollbackTransaction()
+        {
+            Database.RollbackTransaction();
+        }
     }
 }

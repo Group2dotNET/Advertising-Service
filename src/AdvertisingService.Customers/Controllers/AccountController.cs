@@ -3,7 +3,6 @@ using Contracts;
 using AdvertisingService.Customers.Entities;
 using AdvertisingService.Customers.Services.Abstract;
 using AdvertisingService.Customers.Services.Concrete;
-using AdvertisingService.Customers.Utils;
 using MassTransit;
 using MassTransit.Internals;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography.Xml;
+using AutoMapper;
 
 namespace AdvertisingService.Customers.Controllers
 {
@@ -19,18 +19,22 @@ namespace AdvertisingService.Customers.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly UserManager<Customer> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly IAdminService _adminService;
         private readonly IPersonalService _personalService;
+        private readonly IBusControl _busControl;
 
-        public AccountController(UserManager<Customer> userManager, RoleManager<IdentityRole> roleManager, IJwtTokenService jwtTokenService, IPublishEndpoint publishEndpoint)
+        public AccountController(IMapper mapper, UserManager<Customer> userManager, RoleManager<IdentityRole> roleManager, IJwtTokenService jwtTokenService, IBusControl busControl)
         {
+            _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
             _jwtTokenService = jwtTokenService;
-            _personalService = new PersonalService(userManager, roleManager, publishEndpoint);
+            _busControl = busControl;
+            _personalService = new PersonalService(mapper, userManager, roleManager, busControl);
             _adminService = new AdminService(userManager, roleManager);
         }
 
@@ -43,7 +47,7 @@ namespace AdvertisingService.Customers.Controllers
             if (registerUser.Password != registerUser.ConfirmPassword)
                 return BadRequest("Пароли не совпадают!");
 
-            var user = Mapper.Map(registerUser);
+            var user = _mapper.Map<Customer>(registerUser);
             Task<IdentityResult> createTask = _userManager.CreateAsync(user, registerUser.Password);
             await createTask;
             if (!createTask.IsCompletedSuccessfully)
@@ -51,6 +55,8 @@ namespace AdvertisingService.Customers.Controllers
                 var errors = createTask.Result.Errors.Select(x => x.Description);
                 return BadRequest(string.Join(";", errors));
             }
+            UserRegisterInfoDto userInfo = _mapper.Map<UserRegisterInfoDto>(user);
+            await _busControl.Publish(userInfo);
             return StatusCode(201);
         }
 
@@ -73,19 +79,15 @@ namespace AdvertisingService.Customers.Controllers
         }
 
         [HttpPost("setrole")]
+        [AllowAnonymous]
         public async Task<IActionResult> SetRoleToUser([FromBody] UserRoleDto userRole)
         {
-            Task addRole = _adminService.AddRoleAsync(userRole.role);
+            await _adminService.AddRoleAsync(userRole.role);
             Customer? user = _userManager.Users.Single(u => u.UserName == userRole.userName);
             if (user == null) return BadRequest($"Пользователя с логином {userRole.userName} не существует");
-            await addRole;
-            if (addRole.IsCompletedSuccessfully)
-            {
-                Task setRole = _adminService.SetRoleAsync(user, userRole.role);
-                await setRole;
-                return setRole.IsCompletedSuccessfully ? Ok() : BadRequest($"Ошибка при установке пользователю {userRole.userName} роли {userRole.role}");
-            }
-            return BadRequest();
+            Task setRole = _adminService.SetRoleAsync(user, userRole.role);
+            await setRole;
+            return setRole.IsCompletedSuccessfully ? Ok() : BadRequest($"Ошибка при установке пользователю {userRole.userName} роли {userRole.role}");
         }
 
         [HttpPost("updateinfo")]
