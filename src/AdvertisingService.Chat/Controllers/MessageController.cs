@@ -26,16 +26,31 @@ namespace AdvertisingService.Chat.Controllers
         [HttpPost("sendmsg")]
         public async Task<ActionResult<Message>> Send([FromBody] CreateMsgDto message)
         {
-            var msg = await _unitOfWork.MessageRepository.Send(message);
-            return CreatedAtAction(nameof(Send), new { id = msg.Id }, msg);
+            try
+            {
+                await _unitOfWork.MessageRepository.Send(message);
+                await _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("deletemsg")]
         public async Task<ActionResult> Delete([FromBody] DeleteMsgDto message)
         {
-            Task delTask = _unitOfWork.MessageRepository.Delete(message);
-            await delTask.ConfigureAwait(false);
-            return delTask.IsCompletedSuccessfully ? Ok() : BadRequest("Ошибка при удалении сообщения");
+            try
+            {
+                await _unitOfWork.MessageRepository.Delete(message);
+                await _unitOfWork.Commit();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -17,8 +17,9 @@ namespace AdvertisingService.Chat.Profiles
                 .ForPath(dest => dest.Receiver, opt => opt.MapFrom(src =>
                     src.Chat.Receiver));
             CreateMap<MessageDto, Message>();
-            CreateMap<Message, CreateMsgDto>();
-            CreateMap<CreateMsgDto, Message>();
+            CreateMap<Message, CreateMsgDto>().ReverseMap();
+            CreateMap<UserInfoDto, User>();
+            CreateMap<UserRegisterInfoDto, User>();
         }
     }
 }

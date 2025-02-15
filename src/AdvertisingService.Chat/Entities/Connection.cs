@@ -2,7 +2,7 @@
 {
     public class Connection
     {
-        public string ConnectionId { get; set; }
-        public string UserName { get; set; }
+        public required string ConnectionId { get; set; }
+        public required string UserName { get; set; }
     }
 }

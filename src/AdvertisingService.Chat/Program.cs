@@ -1,6 +1,8 @@
 
+using AdvertisingService.Chat.Consumers;
 using AdvertisingService.Chat.Interfaces;
 using AdvertisingService.Chat.Repository;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -42,6 +44,22 @@ namespace AdvertisingService.Chat
                     ValidAudience = builder.Configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
                 };
+            });
+
+            builder.Services.AddMassTransit(x =>
+            {
+                x.AddConsumer<UserRegisteredConsumer>();
+                x.AddConsumer<UserInfoUpdatedConsumer>();
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(new Uri(builder.Configuration["MessageBroker:Host"]), h =>
+                    {
+                        h.Username(builder.Configuration["MessageBroker:Username"]);
+                        h.Password(builder.Configuration["MessageBroker:Password"]);
+                    });
+
+                    cfg.ConfigureEndpoints(context);
+                });
             });
 
             var app = builder.Build();

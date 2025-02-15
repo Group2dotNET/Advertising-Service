@@ -21,8 +21,6 @@ namespace AdvertisingService.Customers
             // Add services to the container.
             builder.Services.AddDbContext<EFContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-            //builder.Services.AddScoped<IAdminService, AdminService>();
-            //builder.Services.AddScoped<IPersonalService, PersonalService>();
             builder.Services.AddIdentity<Customer, IdentityRole>(options  =>
             {
                 options.Password.RequiredLength = 6;
@@ -68,6 +66,7 @@ namespace AdvertisingService.Customers
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAutoMapper(typeof(Program));
 
             var app = builder.Build();
 
