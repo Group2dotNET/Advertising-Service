@@ -2,6 +2,8 @@ using AnnouncementsService.Domain.Abstractions.Repositories;
 using AnnouncementsService.Domain.Abstractions.Services;
 using AnnouncementsService.Infrastructure.EfDbContext;
 using AnnouncementsService.Infrastructure.Repositories;
+using Mapster;
+using System.Reflection;
 
 namespace AnnouncementsService.Host.RestfulAPI;
 
@@ -22,6 +24,11 @@ public class Program
 		builder.Services
 			.AddTransient<IAnnouncementsService, AnnouncementsSerivice.Application.Services.AnnouncementsService>()
 			.AddTransient<ICategoriesService, AnnouncementsSerivice.Application.Services.CategoriesService>();
+
+		builder.Services.AddMapster();
+		TypeAdapterConfig
+			.GlobalSettings
+			.Scan(Assembly.GetExecutingAssembly());
 
 
 		var app = builder.Build();
