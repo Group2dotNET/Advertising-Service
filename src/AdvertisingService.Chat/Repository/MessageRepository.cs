@@ -20,7 +20,7 @@ namespace AdvertisingService.Chat.Repository
         public async Task Send(CreateMsgDto message)
         {
             var msg = _mapper.Map<Message>(message);
-            var chat = await _context.Chats.FirstOrDefaultAsync(c => c.Sender == message.Sender && c.Receiver == message.Receiver);
+            var chat = await _context.Chats.FirstOrDefaultAsync(c => c.SenderId == message.SenderId && c.ReceiverId == message.ReceiverId);
             if (chat != null)
             {
                 msg.ChatId = chat.Id;
@@ -31,14 +31,17 @@ namespace AdvertisingService.Chat.Repository
 
         public async Task Delete(DeleteMsgDto messageDto)
         {
-            var msg = await _context.Messages.Include(m => m.Chat).FirstOrDefaultAsync(m => m.Id == messageDto.MessageId);
+            var msg = await _context.Messages.Include(m => m.Chat)
+                .Include(m => m.Chat.Sender)
+                .Include(m => m.Chat.Receiver)
+                .FirstOrDefaultAsync(m => m.Id == messageDto.MessageId);
             if (msg != null)
             {
-                if (msg.Chat.Sender == messageDto.UserName)
+                if (msg.Chat.Sender.UserName == messageDto.UserName)
                 {
                     msg.SenderDeleted = true;
                 }
-                else if (msg.Chat.Receiver == messageDto.UserName)
+                else if (msg.Chat.Receiver.UserName == messageDto.UserName)
                 {
                     msg.ReceiverDeleted = true;
                 }

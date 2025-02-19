@@ -1,4 +1,4 @@
 ﻿namespace AdvertisingService.Chat.Contracts
 {
-    public record CreateMsgDto(string Sender, string Text, string Receiver);
+    public record CreateMsgDto(string SenderId, string Text, string ReceiverId);
 }
