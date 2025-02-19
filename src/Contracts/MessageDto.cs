@@ -9,9 +9,13 @@ namespace Contracts
     public class MessageDto
     {
         public long Id { get; set; }
-        public string Sender { get; set; }
+        public string SenderId { get; set; }
+        public string SenderUserName { get; set; }
+        public string SenderName { get; set; }
         public string Text { get; set; }
-        public string Receiver { get; set; }
+        public string ReceiverId { get; set; }
+        public string ReceiverUserName { get; set; }
+        public string ReceiverName { get; set; }
         public DateTime DateSent { get; set; }
         public DateTime? DateRead { get; set; }
         public bool SenderDeleted { get; set; }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvertisingService.Chat.Migrations
 {
     [DbContext(typeof(EFContext))]
-    [Migration("20250213151145_init")]
+    [Migration("20250216173846_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -39,15 +39,19 @@ namespace AdvertisingService.Chat.Migrations
                     b.Property<bool>("Muted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Receiver")
+                    b.Property<string>("ReceiverId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Sender")
+                    b.Property<string>("SenderId")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Chats");
                 });
@@ -106,6 +110,25 @@ namespace AdvertisingService.Chat.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("AdvertisingService.Chat.Entities.Chat", b =>
+                {
+                    b.HasOne("AdvertisingService.Chat.Entities.User", "Receiver")
+                        .WithMany()
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdvertisingService.Chat.Entities.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
             modelBuilder.Entity("AdvertisingService.Chat.Entities.Message", b =>

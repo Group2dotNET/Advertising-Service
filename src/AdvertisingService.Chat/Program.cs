@@ -77,7 +77,6 @@ namespace AdvertisingService.Chat
 
 
             app.MapControllers();
-
             app.Run();
         }
     }

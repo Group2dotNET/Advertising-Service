@@ -8,7 +8,7 @@ namespace AdvertisingService.Chat.Interfaces
     {
         public Task Create(ChatDto chatDto);
         public Task Delete(long Id);
-        public Task<IEnumerable<MessageDto>> GetMessagesForUser(string UserName);
+        public Task<IEnumerable<MessageDto>> GetMessagesForUser(string Id);
         public Task<IEnumerable<MessageDto>> GetMessageThread(ChatDto chatDto);
     }
 }
