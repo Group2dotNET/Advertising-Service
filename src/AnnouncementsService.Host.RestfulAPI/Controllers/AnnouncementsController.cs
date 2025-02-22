@@ -23,12 +23,12 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 	}
 
 	[HttpGet]
-	[Route("/Home/Announcements/")]
-	public async Task<IActionResult> GetAllRecentAnnouncements()
+	[Route("recent")]
+	public async Task<IActionResult> GetRecentAnnouncementsPaged([FromQuery] PageInformation pageInfo)
 	{
 		try
 		{
-			var recentAnnouncements = await announcementsService.GetAllRecentAnnouncementsAsync();
+			var recentAnnouncements = await announcementsService.GetPagedRecentAnnouncementsAsync(pageInfo.PageNumber, pageInfo.PageSize);
 			return Ok(recentAnnouncements);
 		}
 		catch 
@@ -96,4 +96,11 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 	//		return BadRequest(ex.Message);
 	//	}
 	//}
+}
+
+public class PageInformation
+{
+	public int PageNumber { get; set; }
+
+	public int PageSize { get; set; }
 }

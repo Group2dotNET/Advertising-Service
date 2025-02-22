@@ -37,6 +37,15 @@ namespace AnnouncementsService.Infrastructure.Repositories
 			return announcements?.OrderByDescending(x => x.CreateDate);
 		}
 
+		public async Task<IEnumerable<Announcement>> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize)
+		{
+			int paginatedData = (pageNumber - 1) * pageSize;
+			return await _dbContext.Announcements.OrderByDescending(a => a.CreateDate)
+				.Skip(paginatedData)
+				.Take(pageSize)
+				.ToArrayAsync();
+		}
+
 		public async Task<Announcement[]?> GetAnnouncementsByCategoryAsync(int categoryId)
 			=> await _dbContext.Announcements.Where(a => a.Category.Id == categoryId).OrderByDescending(x => x.CreateDate).ToArrayAsync();
 	}

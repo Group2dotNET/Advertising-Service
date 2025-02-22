@@ -1,4 +1,6 @@
-﻿namespace AnnouncementsService.Domain.Abstractions.Services;
+﻿using AnnouncementsService.Domain.Abstractions.Dto;
+
+namespace AnnouncementsService.Domain.Abstractions.Services;
 
 public interface IAnnouncementsService
 {
@@ -11,16 +13,8 @@ public interface IAnnouncementsService
 	Task<AnnouncementDto> GetAnnouncement(int id);
 
 	//Task<bool> CreateAnnouncement(AnnouncementDto announcement);
-}
 
-public class ShortAnnouncementDto
-{
-	public long Id { get; set; }
-
-	/// <summary>
-	/// Заголовок объявления
-	/// </summary>
-	public required string Title { get; set; }
+	Task<IEnumerable<ShortAnnouncementDto>?> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize);
 }
 
 public class AnnouncementDto

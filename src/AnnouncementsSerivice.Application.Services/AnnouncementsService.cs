@@ -1,10 +1,11 @@
-﻿using AnnouncementsService.Domain.Abstractions.Repositories;
+﻿using AnnouncementsService.Domain.Abstractions.Dto;
+using AnnouncementsService.Domain.Abstractions.Repositories;
 using AnnouncementsService.Domain.Abstractions.Services;
-using AnnouncementsService.Domain.Entities;
+using MapsterMapper;
 
 namespace AnnouncementsSerivice.Application.Services;
 
-public class AnnouncementsService(IAnnouncementsRepository announcementsRepository) : IAnnouncementsService
+public class AnnouncementsService(IAnnouncementsRepository announcementsRepository, IMapper mapper) : IAnnouncementsService
 {
 
 	public async Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync()
@@ -56,18 +57,6 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 		};
 	}
 
-	//public async Task<bool> CreateAnnouncement(AnnouncementDto announcement)
-	//{
-	//	CategoryDto? category = await categoriesService.GetCategoryByName(announcement.CategoryName);
-	//	if (category == null)
-	//		throw new Exception("Не найдена указанная категория");
-
-	//	return await announcementsRepository.CreateAsync(new Announcement()
-	//	{
-	//		CategoryId = category.Id,
-	//		Title = announcement.Title,
-	//		Description = announcement.Description,
-	//		CreateDate = DateTimeOffset.UtcNow
-	//	});
-	//}
+	public async Task<IEnumerable<ShortAnnouncementDto>?> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize)
+		=> mapper.Map<IEnumerable<ShortAnnouncementDto>>(await announcementsRepository.GetPagedRecentAnnouncementsAsync(pageNumber, pageSize));
 }
