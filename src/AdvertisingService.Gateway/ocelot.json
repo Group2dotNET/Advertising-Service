@@ -240,11 +240,8 @@
       "UpstreamPathTemplate": "/announcements",
       "UpstreamHttpMethod": [ "Get" ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
+        "AuthenticationProviderKey": "",
         "AllowedScopes": []
-      },
-      "RouteClaimsRequirement": {
-        "Role": "User"
       },
       "RateLimitOptions": {
         "ClientWhitelist": [],

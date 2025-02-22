@@ -5,6 +5,8 @@ using AnnouncementsService.Infrastructure.EfDbContext;
 using AnnouncementsService.Infrastructure.Repositories;
 using Mapster;
 using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 
 namespace AnnouncementsService.Host.RestfulAPI;
@@ -33,8 +35,26 @@ public class Program
 		TypeAdapterConfig
 			.GlobalSettings
 			.Scan(Assembly.GetExecutingAssembly());
-
-		builder.Services.AddMassTransit(x =>
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+        {
+            options.SaveToken = true;
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            };
+        });
+		builder.Services.AddAuthorization();
+        builder.Services.AddMassTransit(x =>
 		{
 			x.AddConsumer<UserConsumer>();
 			x.UsingRabbitMq((context, cfg) =>
@@ -59,7 +79,9 @@ public class Program
 			app.UseSwaggerUI();
 		}
 
-		app.UseHttpsRedirection();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.UseHttpsRedirection();
 		app.MapControllers();
 
 		app.Run();

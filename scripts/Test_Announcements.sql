@@ -1,4 +1,4 @@
-select * from announcements a 
+select * from announcements a ;
 
 insert into announcements(title, description, create_date, update_date, category_id)
 values 
