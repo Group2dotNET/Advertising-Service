@@ -9,4 +9,6 @@ public interface IAnnouncementsRepository : ICrudRepository<Announcement, int>
 	Task<Announcement[]?> GetAnnouncementsByCategoryAsync(int categoryId);
 
 	Task<IEnumerable<Announcement>> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize);
+
+	Task<IEnumerable<Announcement>> GetPagedAnnouncementsByCategoryIdAsync(int categoryId, int pageNumber, int pageSize);
 }

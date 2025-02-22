@@ -44,4 +44,10 @@ public class CategoriesRepository(AnnouncementsDbContext dbContext) : ICategorie
 		var category = await dbContext.Categories.AsNoTracking().SingleAsync(c => c.Name == categoryName);
 		return category.ChildCategories;
 	}
+
+	public async Task<int?> GetCategoryIdByNameAsync(string categoryName)
+	{
+		var category = await dbContext.Categories.FirstOrDefaultAsync(c => c.Name == categoryName);
+		return category?.Id;
+	}
 }

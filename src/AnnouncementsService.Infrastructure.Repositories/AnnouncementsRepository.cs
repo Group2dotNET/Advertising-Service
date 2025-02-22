@@ -48,5 +48,14 @@ namespace AnnouncementsService.Infrastructure.Repositories
 
 		public async Task<Announcement[]?> GetAnnouncementsByCategoryAsync(int categoryId)
 			=> await _dbContext.Announcements.Where(a => a.Category.Id == categoryId).OrderByDescending(x => x.CreateDate).ToArrayAsync();
+
+		public async Task<IEnumerable<Announcement>> GetPagedAnnouncementsByCategoryIdAsync(int categoryId, int pageNumber, int pageSize)
+		{
+			int paginatedData = (pageNumber - 1) * pageSize;
+			return await _dbContext.Announcements.Where(a => a.CategoryId == categoryId)
+				.Skip(paginatedData)
+				.Take(pageSize)
+				.ToArrayAsync();
+		}
 	}
 }

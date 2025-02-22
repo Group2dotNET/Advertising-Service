@@ -5,7 +5,8 @@ using MapsterMapper;
 
 namespace AnnouncementsSerivice.Application.Services;
 
-public class AnnouncementsService(IAnnouncementsRepository announcementsRepository, IMapper mapper) : IAnnouncementsService
+public class AnnouncementsService(IAnnouncementsRepository announcementsRepository, ICategoriesService categoriesService,
+	IMapper mapper) : IAnnouncementsService
 {
 
 	public async Task<IList<ShortAnnouncementDto>?> GetAllAnnouncementsAsync()
@@ -39,7 +40,7 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 		});
 	}
 
-	public async Task<AnnouncementDto> GetAnnouncement(int id)
+	public async Task<AnnouncementDto> GetAnnouncementAsync(int id)
 	{
 		var announcement = await announcementsRepository.GetAsync(id);
 		if (announcement == null)
@@ -59,4 +60,17 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 
 	public async Task<IEnumerable<ShortAnnouncementDto>?> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize)
 		=> mapper.Map<IEnumerable<ShortAnnouncementDto>>(await announcementsRepository.GetPagedRecentAnnouncementsAsync(pageNumber, pageSize));
+
+	public async Task<IEnumerable<ShortAnnouncementDto>> GetPagedAnnouncementsByCategoryAsync(string categoryName, int pageNumber, int pageSize)
+	{
+		var categoryId = await categoriesService.GetCategoryIdByNameAsync(categoryName);
+		if(!categoryId.HasValue)
+		{
+			throw new Exception($"Отсутсвует категория с именем {categoryName}");
+		}
+
+		return mapper.Map<IEnumerable<ShortAnnouncementDto>>(
+			await announcementsRepository
+				.GetPagedAnnouncementsByCategoryIdAsync(categoryId.Value, pageNumber, pageSize));
+	}
 }

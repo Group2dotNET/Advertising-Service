@@ -46,4 +46,6 @@ public interface ICategoriesService
 	/// <param name="category">Объект категории, у которой нужно получить подкатегории</param>
 	/// <returns>Список основных подкатегорий</returns>
 	Task<IEnumerable<ShortCategoryDto>?> GetGeneralSubcategoriesAsync(ShortCategoryDto category);
+
+	Task<int?> GetCategoryIdByNameAsync(string categoryName);
 }

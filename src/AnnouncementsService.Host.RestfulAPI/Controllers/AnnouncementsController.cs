@@ -5,7 +5,7 @@ namespace AnnouncementsService.Host.RestfulAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AnnouncementsController(IAnnouncementsService announcementsService, ICategoriesService categoriesService) 
+public class AnnouncementsController(IAnnouncementsService announcementsService) 
 	: ControllerBase
 {
 	[HttpGet]
@@ -37,29 +37,14 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 		}
 	}
 
-	//[HttpGet]
-	//[Route("/Home/Categories")]
-	//public async Task<IActionResult> GetGeneralCategories()
-	//{
-	//	try
-	//	{
-	//		var generalCategories = await categoriesService.GetGeneralCategories();
-	//		return Ok(generalCategories);
-	//	}
-	//	catch (Exception ex)
-	//	{
-	//		return BadRequest(ex.Message);
-	//	}
-	//}
-
 	[HttpGet]
-	[Route("/Home/Categories/{id}")]
-	public async Task<IActionResult> GetAnnouncementsByCategory(int id)
+	[Route("{categoryName}")]
+	public async Task<IActionResult> GetPagedAnnouncementsByCategory([FromQuery] PageInformation pageInfo, string categoryName)
 	{
 		try
 		{
-			var announcementsByCategory = await announcementsService.GetAnnouncementsByCategory(id);
-			return Ok(announcementsByCategory);
+			var announcements = await announcementsService.GetPagedAnnouncementsByCategoryAsync(categoryName, pageInfo.PageNumber, pageInfo.PageSize);
+			return Ok(announcements);
 		}
 		catch (Exception ex)
 		{
@@ -68,12 +53,12 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 	}
 
 	[HttpGet]
-	[Route("/Home/Announcements/{id}")]
+	[Route("concrete_announcement/{id}")]
 	public async Task<IActionResult> GetAnnouncement(int id)
 	{
 		try
 		{
-			var announcement = await announcementsService.GetAnnouncement(id);
+			var announcement = await announcementsService.GetAnnouncementAsync(id);
 			return Ok(announcement);
 		}
 		catch (Exception ex)
