@@ -26,4 +26,6 @@ public interface ICategoriesRepository : ICrudRepository<Category, int>
 	/// <param name="categoryName">Имя категории</param>
 	/// <returns>Список дочерних категорий</returns>
 	Task<IEnumerable<Category>?> GetSubcategories(string categoryName);
+
+	Task<int?> GetCategoryIdByNameAsync(string categoryName);
 }

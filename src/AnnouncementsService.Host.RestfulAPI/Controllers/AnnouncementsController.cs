@@ -1,11 +1,12 @@
-﻿using AnnouncementsService.Domain.Abstractions.Services;
+﻿using AnnouncementsService.Domain.Abstractions.Dto;
+using AnnouncementsService.Domain.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnnouncementsService.Host.RestfulAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AnnouncementsController(IAnnouncementsService announcementsService, ICategoriesService categoriesService) 
+public class AnnouncementsController(IAnnouncementsService announcementsService) 
 	: ControllerBase
 {
 	[HttpGet]
@@ -23,12 +24,12 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 	}
 
 	[HttpGet]
-	[Route("/Home/Announcements/")]
-	public async Task<IActionResult> GetAllRecentAnnouncements()
+	[Route("recent")]
+	public async Task<IActionResult> GetRecentAnnouncementsPaged([FromQuery] PageInformation pageInfo)
 	{
 		try
 		{
-			var recentAnnouncements = await announcementsService.GetAllRecentAnnouncementsAsync();
+			var recentAnnouncements = await announcementsService.GetPagedRecentAnnouncementsAsync(pageInfo.PageNumber, pageInfo.PageSize);
 			return Ok(recentAnnouncements);
 		}
 		catch 
@@ -37,29 +38,14 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 		}
 	}
 
-	//[HttpGet]
-	//[Route("/Home/Categories")]
-	//public async Task<IActionResult> GetGeneralCategories()
-	//{
-	//	try
-	//	{
-	//		var generalCategories = await categoriesService.GetGeneralCategories();
-	//		return Ok(generalCategories);
-	//	}
-	//	catch (Exception ex)
-	//	{
-	//		return BadRequest(ex.Message);
-	//	}
-	//}
-
 	[HttpGet]
-	[Route("/Home/Categories/{id}")]
-	public async Task<IActionResult> GetAnnouncementsByCategory(int id)
+	[Route("{categoryName}")]
+	public async Task<IActionResult> GetPagedAnnouncementsByCategory([FromQuery] PageInformation pageInfo, string categoryName)
 	{
 		try
 		{
-			var announcementsByCategory = await announcementsService.GetAnnouncementsByCategory(id);
-			return Ok(announcementsByCategory);
+			var announcements = await announcementsService.GetPagedAnnouncementsByCategoryAsync(categoryName, pageInfo.PageNumber, pageInfo.PageSize);
+			return Ok(announcements);
 		}
 		catch (Exception ex)
 		{
@@ -68,12 +54,12 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 	}
 
 	[HttpGet]
-	[Route("/Home/Announcements/{id}")]
+	[Route("concrete_announcement/{id}")]
 	public async Task<IActionResult> GetAnnouncement(int id)
 	{
 		try
 		{
-			var announcement = await announcementsService.GetAnnouncement(id);
+			var announcement = await announcementsService.GetAnnouncementAsync(id);
 			return Ok(announcement);
 		}
 		catch (Exception ex)
@@ -82,18 +68,40 @@ public class AnnouncementsController(IAnnouncementsService announcementsService,
 		}
 	}
 
-	//[HttpPost]
-	//[Route("/Home/Announcements/CreateNew")]
-	//public async Task<IActionResult> CreateAnnouncement(AnnouncementDto announcement)
-	//{
-	//	try
-	//	{
-	//		bool result = await announcementsService.CreateAnnouncement(announcement);
-	//		return Ok(result ? "Success" : "Fail");
-	//	}
-	//	catch (Exception ex)
-	//	{
-	//		return BadRequest(ex.Message);
-	//	}
-	//}
+	[HttpPost]
+	[Route("create_new")]
+	public async Task<IActionResult> CreateAnnouncement(CreatedAnnouncementDto newAnnouncement)
+	{
+		try
+		{
+			bool result = await announcementsService.CreateNewAnnouncementAsync(newAnnouncement);
+			return Ok(result ? "Success" : "Fail");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
+	[HttpPut]
+	[Route("edit")]
+	public async Task<IActionResult> EditAnnouncement(EditedAnnouncementDto editedAnnouncementDto)
+	{
+		try
+		{
+			bool result = await announcementsService.UpdateAnnouncementAsync(editedAnnouncementDto);
+			return Ok(result ? "Success" : "Fail");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+}
+
+public class PageInformation
+{
+	public int PageNumber { get; set; }
+
+	public int PageSize { get; set; }
 }

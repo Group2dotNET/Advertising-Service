@@ -3,6 +3,7 @@ using System;
 using AnnouncementsService.Infrastructure.EfDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AnnouncementsService.Infrastructure.EfDbContext.Migrations
 {
     [DbContext(typeof(AnnouncementsDbContext))]
-    partial class AnnouncementsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250222160739_AddUserTable")]
+    partial class AddUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,6 +60,9 @@ namespace AnnouncementsService.Infrastructure.EfDbContext.Migrations
                     b.Property<DateTimeOffset?>("UpdateDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("update_date");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id")
                         .HasName("announcements_primary_key");
@@ -140,7 +146,7 @@ namespace AnnouncementsService.Infrastructure.EfDbContext.Migrations
                         .IsRequired();
 
                     b.HasOne("AnnouncementsService.Domain.Entities.User", "Owner")
-                        .WithMany("Announcements")
+                        .WithMany()
                         .HasForeignKey("OwnerId");
 
                     b.Navigation("Category");
@@ -162,11 +168,6 @@ namespace AnnouncementsService.Infrastructure.EfDbContext.Migrations
                     b.Navigation("Announcements");
 
                     b.Navigation("ChildCategories");
-                });
-
-            modelBuilder.Entity("AnnouncementsService.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Announcements");
                 });
 #pragma warning restore 612, 618
         }

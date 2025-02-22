@@ -1,4 +1,6 @@
-﻿namespace AnnouncementsService.Domain.Abstractions.Services;
+﻿using AnnouncementsService.Domain.Abstractions.Dto;
+
+namespace AnnouncementsService.Domain.Abstractions.Services;
 
 public interface IAnnouncementsService
 {
@@ -6,32 +8,13 @@ public interface IAnnouncementsService
 
 	Task<IEnumerable<ShortAnnouncementDto>?> GetAllRecentAnnouncementsAsync();
 
-	Task<IEnumerable<ShortAnnouncementDto>?> GetAnnouncementsByCategory(int categoryId);
+	Task<AnnouncementDto> GetAnnouncementAsync(int id);
 
-	Task<AnnouncementDto> GetAnnouncement(int id);
+	Task<IEnumerable<ShortAnnouncementDto>?> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize);
 
-	//Task<bool> CreateAnnouncement(AnnouncementDto announcement);
-}
+	Task<IEnumerable<ShortAnnouncementDto>> GetPagedAnnouncementsByCategoryAsync(string categoryName, int pageNumber, int pageSize);
 
-public class ShortAnnouncementDto
-{
-	public long Id { get; set; }
+	Task<bool> CreateNewAnnouncementAsync(CreatedAnnouncementDto newAnnouncement);
 
-	/// <summary>
-	/// Заголовок объявления
-	/// </summary>
-	public required string Title { get; set; }
-}
-
-public class AnnouncementDto
-{
-	public long Id { get; set; }
-
-	public required string Title { get; set; }
-
-	public string? Description { get; set; }
-
-	public required string CategoryName { get; set; }
-
-	public DateTimeOffset LastUpdateDate { get; set; }
+	Task<bool> UpdateAnnouncementAsync(EditedAnnouncementDto editedAnnouncement);
 }

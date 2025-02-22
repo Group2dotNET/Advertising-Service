@@ -80,4 +80,7 @@ public class CategoriesService(ICategoriesRepository categoriesRepository, IMapp
 			return await categoriesRepository.UpdateAsync(category);
 		}
 	}
+
+	public async Task<int?> GetCategoryIdByNameAsync(string categoryName)
+		=> await categoriesRepository.GetCategoryIdByNameAsync(categoryName);
 }
