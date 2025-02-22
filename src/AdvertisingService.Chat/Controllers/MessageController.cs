@@ -44,7 +44,6 @@ namespace AdvertisingService.Chat.Controllers
             try
             {
                 await _unitOfWork.MessageRepository.Delete(message);
-                await _unitOfWork.Commit();
                 return Ok();
             }
             catch (Exception ex)

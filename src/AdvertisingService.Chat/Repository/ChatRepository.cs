@@ -19,7 +19,7 @@ namespace AdvertisingService.Chat.Repository
         }
         public async Task Create(ChatDto chatDto)
         {
-            bool chatExists = await _context.Chats.AnyAsync(x => x.Sender == chatDto.Sender && x.Receiver == chatDto.Receiver);
+            bool chatExists = await _context.Chats.AnyAsync(x => x.SenderId == chatDto.SenderId && x.ReceiverId == chatDto.ReceiverId);
             if (!chatExists)
             {
                 var chat = _mapper.Map<Entities.Chat>(chatDto);
@@ -37,26 +37,25 @@ namespace AdvertisingService.Chat.Repository
             }
         }
 
-        public async Task<IEnumerable<MessageDto>> GetMessagesForUser(string UserName)
+        public async Task<IEnumerable<MessageDto>> GetMessagesForUser(string Id)
         {
-            var messages = await _context.Messages
-                .Where(u => u.Chat.Receiver == UserName && u.DateRead == null && u.ReceiverDeleted == false)
+            var messages = await _context.Messages.Include(m => m.Chat).Include(m => m.Chat.Sender).Include(m => m.Chat.Receiver)
+                .Where(u => u.Chat.ReceiverId == Id && u.DateRead == null && u.ReceiverDeleted == false)
                 .OrderByDescending(m => m.DateSent)
-                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            return messages;
+            return messages.Select(m => _mapper.Map<MessageDto>(m));
         }
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(ChatDto chatDto)
         {
-            var messages = await _context.Messages.Include(m => m.Chat)
-                .Where(m => m.Chat.Receiver == chatDto.Sender && m.ReceiverDeleted == false
-                        && m.Chat.Sender == chatDto.Receiver
-                        || m.Chat.Receiver == chatDto.Receiver
-                        && m.Chat.Sender == chatDto.Sender && m.SenderDeleted == false)
+            var messages = await _context.Messages.Include(m => m.Chat).Include(m => m.Chat.Sender).Include(m => m.Chat.Receiver)
+                .Where(m => m.Chat.ReceiverId == chatDto.SenderId && m.ReceiverDeleted == false
+                        && m.Chat.SenderId == chatDto.ReceiverId
+                        || m.Chat.ReceiverId == chatDto.ReceiverId
+                        && m.Chat.SenderId == chatDto.SenderId && m.SenderDeleted == false)
                 .OrderBy(m => m.DateSent).ToListAsync();
-            foreach (var message in messages.Where(m => m.DateRead == null && m.Chat.Receiver == chatDto.Sender))
+            foreach (var message in messages.Where(m => m.DateRead == null && m.Chat.ReceiverId == chatDto.SenderId))
             {
                 message.DateRead = DateTime.UtcNow;
                 _context.Entry(message).State = EntityState.Modified;
