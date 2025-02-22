@@ -11,6 +11,7 @@ namespace AdvertisingService.Chat.Repository
     {
         private readonly EFContext _context;
         private readonly IMapper _mapper;
+        private readonly object _lock = new();
         public MessageRepository(EFContext context, IMapper mapper)
         {
             _context = context;
@@ -37,15 +38,19 @@ namespace AdvertisingService.Chat.Repository
                 .FirstOrDefaultAsync(m => m.Id == messageDto.MessageId);
             if (msg != null)
             {
-                if (msg.Chat.Sender.UserName == messageDto.UserName)
+                lock (_lock)
                 {
-                    msg.SenderDeleted = true;
+                    if (msg.Chat.Sender.UserName == messageDto.UserName)
+                    {
+                        msg.SenderDeleted = true;
+                    }
+                    else if (msg.Chat.Receiver.UserName == messageDto.UserName)
+                    {
+                        msg.ReceiverDeleted = true;
+                    }
+                    _context.Entry(msg).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
                 }
-                else if (msg.Chat.Receiver.UserName == messageDto.UserName)
-                {
-                    msg.ReceiverDeleted = true;
-                }
-                _context.Entry(msg).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
         }
     }

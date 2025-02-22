@@ -227,40 +227,8 @@
         "PeriodTimespan": 1,
         "Limit": 1
       }
-    },
-    {
-      "DownstreamPathTemplate": "/api/Ads/all",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5002
-        }
-      ],
-      "UpstreamPathTemplate": "/ads",
-      "UpstreamHttpMethod": [ "Get" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "",
-        "AllowedScopes": []
-      },
-      "RateLimitOptions": {
-        "ClientWhitelist": [],
-        "EnableRateLimiting": true,
-        "Period": "5s",
-        "PeriodTimespan": 1,
-        "Limit": 1
-      },
-      "FileCacheOptions": {
-        "TtlSeconds": 15
-      }
     }
   ],
-  //"Aggregates": [
-  //  {
-  //    "UpstreamPathTemplate": "/",
-  //    "RouteKeys": ["Key1", "Key2"]
-  //  }
-  //],
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:5000"
   }
