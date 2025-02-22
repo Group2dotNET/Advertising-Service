@@ -13,10 +13,12 @@ public class User : Entity<Guid>
 	/// <summary>
 	/// Контактная информация пользователя
 	/// </summary>
-	public List<UserContactInfo>? Contacts { get; set; }
+	//public List<UserContactInfo>? Contacts { get; set; }
 
 	/// <summary>
 	/// Внешний идентификатор пользователя
 	/// </summary>
-	public int ExternalId { get; set; }
+	public required string ExternalId { get; set; }
+
+	public virtual List<Announcement>? Announcements { get; set; }
 }

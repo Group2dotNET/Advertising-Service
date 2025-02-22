@@ -11,9 +11,12 @@ public class AnnouncementsDbContext(DbContextOptions<AnnouncementsDbContext> opt
 
 	public DbSet<Category> Categories { get; set; }
 
+	public DbSet<User> Users { get; set; }
+
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfiguration(new AnnouncementConfiguration());
 		modelBuilder.ApplyConfiguration(new CategoriesConfiguration());
+		modelBuilder.ApplyConfiguration(new UsersConfiguration());
 	}
 }

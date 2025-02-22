@@ -24,5 +24,8 @@ public class AnnouncementConfiguration : IEntityTypeConfiguration<Announcement>
 		builder.HasOne(a => a.Category)
 			   .WithMany(c => c.Announcements)
 			   .HasForeignKey(a => a.CategoryId);
+		builder.HasOne(a => a.Owner)
+			   .WithMany(u => u.Announcements)
+			   .HasForeignKey(a => a.OwnerId);
 	}
 }

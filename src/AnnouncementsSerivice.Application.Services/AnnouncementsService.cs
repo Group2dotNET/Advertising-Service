@@ -1,6 +1,7 @@
 ﻿using AnnouncementsService.Domain.Abstractions.Dto;
 using AnnouncementsService.Domain.Abstractions.Repositories;
 using AnnouncementsService.Domain.Abstractions.Services;
+using AnnouncementsService.Domain.Entities;
 using MapsterMapper;
 
 namespace AnnouncementsSerivice.Application.Services;
@@ -24,16 +25,6 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 	{
 		var recentAnnouncements = await announcementsRepository.GetAllRecentAsync();
 		return recentAnnouncements?.Select(a => new ShortAnnouncementDto()
-		{
-			Id = a.Id,
-			Title = a.Title,
-		});
-	}
-
-	public async Task<IEnumerable<ShortAnnouncementDto>?> GetAnnouncementsByCategory(int categoryId)
-	{
-		var announcementsByCategory = await announcementsRepository.GetAnnouncementsByCategoryAsync(categoryId);
-		return announcementsByCategory?.Select(a => new ShortAnnouncementDto
 		{
 			Id = a.Id,
 			Title = a.Title,
@@ -64,5 +55,47 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 		return mapper.Map<IEnumerable<ShortAnnouncementDto>>(
 			await announcementsRepository
 				.GetPagedAnnouncementsByCategoryIdAsync(categoryId.Value, pageNumber, pageSize));
+	}
+
+	public async Task<bool> CreateNewAnnouncementAsync(CreatedAnnouncementDto newAnnouncement)
+	{
+		try
+		{
+			int? category = await categoriesService.GetCategoryIdByNameAsync(newAnnouncement.CategoryName);
+			if (category == null)
+			{
+				throw new Exception($"Отсутсвует категория с именем {newAnnouncement.CategoryName}");
+			}
+			var announcement = new Announcement()
+			{
+				Title = newAnnouncement.Title,
+				Description = newAnnouncement.Description,
+				CategoryId = category.Value,
+				CreateDate = DateTimeOffset.UtcNow
+			};
+
+			return await announcementsRepository.CreateAsync(announcement);
+		}
+		catch
+		{
+			throw;
+		}
+	}
+
+	public async Task<bool> UpdateAnnouncementAsync(EditedAnnouncementDto editedAnnouncement)
+	{
+		var announcement = await announcementsRepository.GetAsync(editedAnnouncement.Id);
+		var categoryId = await categoriesService.GetCategoryIdByNameAsync(editedAnnouncement.CategoryName);
+		if (announcement == null)
+			throw new Exception($"Объявления с идентификатором {editedAnnouncement.Id} не существует");
+		if (categoryId == null)
+			throw new Exception($"Отсутсвует категория с именем {editedAnnouncement.CategoryName}");
+
+		announcement.Title = editedAnnouncement.Title;
+		announcement.Description = editedAnnouncement.Description;
+		announcement.CategoryId = categoryId.Value;
+		announcement.UpdateDate = DateTimeOffset.UtcNow;
+		
+		return await announcementsRepository.UpdateAsync(announcement);
 	}
 }

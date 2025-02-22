@@ -34,9 +34,10 @@ public class Announcement : Entity<long>
 	/// </summary>
 	public virtual Category? Category { get; set; }
 
+	public Guid? OwnerId { get; set; }
 	/// <summary>
 	/// Владелец
 	/// </summary>
-	//public required User Owner { get; set; }
+	public virtual User? Owner { get; set; }
 
 }

@@ -8,11 +8,13 @@ public interface IAnnouncementsService
 
 	Task<IEnumerable<ShortAnnouncementDto>?> GetAllRecentAnnouncementsAsync();
 
-	Task<IEnumerable<ShortAnnouncementDto>?> GetAnnouncementsByCategory(int categoryId);
-
 	Task<AnnouncementDto> GetAnnouncementAsync(int id);
 
 	Task<IEnumerable<ShortAnnouncementDto>?> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize);
 
 	Task<IEnumerable<ShortAnnouncementDto>> GetPagedAnnouncementsByCategoryAsync(string categoryName, int pageNumber, int pageSize);
+
+	Task<bool> CreateNewAnnouncementAsync(CreatedAnnouncementDto newAnnouncement);
+
+	Task<bool> UpdateAnnouncementAsync(EditedAnnouncementDto editedAnnouncement);
 }

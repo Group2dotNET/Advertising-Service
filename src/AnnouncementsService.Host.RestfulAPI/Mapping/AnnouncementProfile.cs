@@ -12,5 +12,7 @@ public class AnnouncementProfile : IRegister
 		config.NewConfig<Announcement, AnnouncementDto>()
 			.Map(dest => dest.LastUpdateDate,
 			src => src.UpdateDate ?? src.CreateDate);
+
+		config.NewConfig<CreatedAnnouncementDto, Announcement>();
 	}
 }

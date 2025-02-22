@@ -1,8 +1,10 @@
+using AnnouncementsSerivice.Application.Services;
 using AnnouncementsService.Domain.Abstractions.Repositories;
 using AnnouncementsService.Domain.Abstractions.Services;
 using AnnouncementsService.Infrastructure.EfDbContext;
 using AnnouncementsService.Infrastructure.Repositories;
 using Mapster;
+using MassTransit;
 using System.Reflection;
 
 namespace AnnouncementsService.Host.RestfulAPI;
@@ -20,15 +22,32 @@ public class Program
 
 		builder.Services.ConfigureDbContext();
 		builder.Services.AddScoped<IAnnouncementsRepository, AnnouncementsRepository>()
-						.AddScoped<ICategoriesRepository, CategoriesRepository>();
+						.AddScoped<ICategoriesRepository, CategoriesRepository>()
+						.AddScoped<IUserRepository, UsersRepository>();
 		builder.Services
 			.AddTransient<IAnnouncementsService, AnnouncementsSerivice.Application.Services.AnnouncementsService>()
-			.AddTransient<ICategoriesService, AnnouncementsSerivice.Application.Services.CategoriesService>();
+			.AddTransient<ICategoriesService, CategoriesService>()
+			.AddTransient<IUserService, UserService>();
 
 		builder.Services.AddMapster();
 		TypeAdapterConfig
 			.GlobalSettings
 			.Scan(Assembly.GetExecutingAssembly());
+
+		builder.Services.AddMassTransit(x =>
+		{
+			x.AddConsumer<UserConsumer>();
+			x.UsingRabbitMq((context, cfg) =>
+			{
+				cfg.Host(new Uri(builder.Configuration["MessageBroker:Host"]), h =>
+				{
+					h.Username(builder.Configuration["MessageBroker:Username"]);
+					h.Password(builder.Configuration["MessageBroker:Password"]);
+				});
+
+				cfg.ConfigureEndpoints(context);
+			});
+		});
 
 
 		var app = builder.Build();

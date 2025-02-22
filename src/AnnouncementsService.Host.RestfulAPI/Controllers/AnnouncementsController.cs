@@ -1,4 +1,5 @@
-﻿using AnnouncementsService.Domain.Abstractions.Services;
+﻿using AnnouncementsService.Domain.Abstractions.Dto;
+using AnnouncementsService.Domain.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnnouncementsService.Host.RestfulAPI.Controllers;
@@ -67,20 +68,35 @@ public class AnnouncementsController(IAnnouncementsService announcementsService)
 		}
 	}
 
-	//[HttpPost]
-	//[Route("/Home/Announcements/CreateNew")]
-	//public async Task<IActionResult> CreateAnnouncement(AnnouncementDto announcement)
-	//{
-	//	try
-	//	{
-	//		bool result = await announcementsService.CreateAnnouncement(announcement);
-	//		return Ok(result ? "Success" : "Fail");
-	//	}
-	//	catch (Exception ex)
-	//	{
-	//		return BadRequest(ex.Message);
-	//	}
-	//}
+	[HttpPost]
+	[Route("create_new")]
+	public async Task<IActionResult> CreateAnnouncement(CreatedAnnouncementDto newAnnouncement)
+	{
+		try
+		{
+			bool result = await announcementsService.CreateNewAnnouncementAsync(newAnnouncement);
+			return Ok(result ? "Success" : "Fail");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
+	[HttpPut]
+	[Route("edit")]
+	public async Task<IActionResult> EditAnnouncement(EditedAnnouncementDto editedAnnouncementDto)
+	{
+		try
+		{
+			bool result = await announcementsService.UpdateAnnouncementAsync(editedAnnouncementDto);
+			return Ok(result ? "Success" : "Fail");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 }
 
 public class PageInformation

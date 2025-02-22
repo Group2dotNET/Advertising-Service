@@ -26,9 +26,20 @@ namespace AnnouncementsService.Infrastructure.Repositories
 		public async Task<Announcement?> GetAsync(int key)
 			=> await _dbContext.Announcements.SingleOrDefaultAsync(x => x.Id == key);
 
-		public Task<bool> UpdateAsync(Announcement entity)
+		public async Task<bool> UpdateAsync(Announcement entity)
 		{
-			throw new NotImplementedException();
+			var announcement = await _dbContext.Announcements.SingleOrDefaultAsync(a => a.Id == entity.Id);
+			if (announcement == null)
+			{
+				return false;
+			}
+			
+			announcement.Title = entity.Title;
+			announcement.Description = entity.Description;
+			announcement.CategoryId = entity.CategoryId;
+			announcement.UpdateDate = entity.UpdateDate;
+
+			return (await _dbContext.SaveChangesAsync()) > 0;
 		}
 
 		public async Task<IEnumerable<Announcement>?> GetAllRecentAsync()
@@ -45,9 +56,6 @@ namespace AnnouncementsService.Infrastructure.Repositories
 				.Take(pageSize)
 				.ToArrayAsync();
 		}
-
-		public async Task<Announcement[]?> GetAnnouncementsByCategoryAsync(int categoryId)
-			=> await _dbContext.Announcements.Where(a => a.Category.Id == categoryId).OrderByDescending(x => x.CreateDate).ToArrayAsync();
 
 		public async Task<IEnumerable<Announcement>> GetPagedAnnouncementsByCategoryIdAsync(int categoryId, int pageNumber, int pageSize)
 		{
