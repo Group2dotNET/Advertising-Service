@@ -47,15 +47,7 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 		{
 			throw new Exception("Ошибка! Объявления не найдено");
 		}
-
-		return new AnnouncementDto
-		{
-			Id = announcement.Id,
-			Title = announcement.Title,
-			Description = announcement.Description,
-			CategoryName = announcement.Category?.Name ?? "Нет категории",
-			LastUpdateDate = announcement.UpdateDate ?? announcement.CreateDate
-		};
+		return mapper.Map<AnnouncementDto>(announcement);
 	}
 
 	public async Task<IEnumerable<ShortAnnouncementDto>?> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize)

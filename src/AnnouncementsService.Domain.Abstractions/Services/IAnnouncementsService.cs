@@ -12,22 +12,7 @@ public interface IAnnouncementsService
 
 	Task<AnnouncementDto> GetAnnouncementAsync(int id);
 
-	//Task<bool> CreateAnnouncement(AnnouncementDto announcement);
-
 	Task<IEnumerable<ShortAnnouncementDto>?> GetPagedRecentAnnouncementsAsync(int pageNumber, int pageSize);
 
 	Task<IEnumerable<ShortAnnouncementDto>> GetPagedAnnouncementsByCategoryAsync(string categoryName, int pageNumber, int pageSize);
-}
-
-public class AnnouncementDto
-{
-	public long Id { get; set; }
-
-	public required string Title { get; set; }
-
-	public string? Description { get; set; }
-
-	public required string CategoryName { get; set; }
-
-	public DateTimeOffset LastUpdateDate { get; set; }
 }
