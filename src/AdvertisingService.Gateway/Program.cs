@@ -9,7 +9,7 @@ namespace AdvertisingService.Gateway
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             //игнорировать ошибки сертификата
             ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
@@ -50,7 +50,7 @@ namespace AdvertisingService.Gateway
             }
 
             app.UseHttpsRedirection();
-            app.UseOcelot().Wait();
+            await app.UseOcelot();
             app.UseAuthentication();
             app.UseAuthorization();
             //app.MapGet("/", (HttpContext httpContext) =>

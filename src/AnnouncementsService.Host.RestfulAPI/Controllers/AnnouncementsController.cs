@@ -53,8 +53,7 @@ public class AnnouncementsController(IAnnouncementsService announcementsService)
 		}
 	}
 
-	[HttpGet]
-	[Route("concrete_announcement/{id}")]
+	[HttpGet("{id}")]
 	public async Task<IActionResult> GetAnnouncement(int id)
 	{
 		try
@@ -90,6 +89,20 @@ public class AnnouncementsController(IAnnouncementsService announcementsService)
 		try
 		{
 			bool result = await announcementsService.UpdateAnnouncementAsync(editedAnnouncementDto);
+			return Ok(result ? "Success" : "Fail");
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> DeleteAnnouncement(int id)
+	{
+		try
+		{
+			bool result = await announcementsService.DeleteAnnouncementAsync(id);
 			return Ok(result ? "Success" : "Fail");
 		}
 		catch (Exception ex)

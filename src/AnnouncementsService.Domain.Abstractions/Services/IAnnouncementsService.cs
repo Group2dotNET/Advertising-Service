@@ -17,4 +17,6 @@ public interface IAnnouncementsService
 	Task<bool> CreateNewAnnouncementAsync(CreatedAnnouncementDto newAnnouncement);
 
 	Task<bool> UpdateAnnouncementAsync(EditedAnnouncementDto editedAnnouncement);
+
+	Task<bool> DeleteAnnouncementAsync(int announcementId);
 }

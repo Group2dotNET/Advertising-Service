@@ -98,4 +98,13 @@ public class AnnouncementsService(IAnnouncementsRepository announcementsReposito
 		
 		return await announcementsRepository.UpdateAsync(announcement);
 	}
+
+	public async Task<bool> DeleteAnnouncementAsync(int announcementId)
+	{
+		var announcement = await announcementsRepository.GetAsync(announcementId);
+		if (announcement == null)
+			throw new Exception($"Объявления с идентификатором {announcementId} не существует");
+
+		return await announcementsRepository.DeleteAsync(announcement);
+	}
 }
