@@ -53,7 +53,7 @@ public class AnnouncementsController(IAnnouncementsService announcementsService)
 		}
 	}
 
-	[HttpGet("{id}")]
+	[HttpGet("{id:int}")]
 	public async Task<IActionResult> GetAnnouncement(int id)
 	{
 		try
@@ -69,7 +69,7 @@ public class AnnouncementsController(IAnnouncementsService announcementsService)
 
 	[HttpPost]
 	[Route("create_new")]
-	public async Task<IActionResult> CreateAnnouncement(CreatedAnnouncementDto newAnnouncement)
+	public async Task<IActionResult> CreateAnnouncement([FromBody] CreatedAnnouncementDto newAnnouncement)
 	{
 		try
 		{
@@ -82,9 +82,8 @@ public class AnnouncementsController(IAnnouncementsService announcementsService)
 		}
 	}
 
-	[HttpPut]
-	[Route("edit")]
-	public async Task<IActionResult> EditAnnouncement(EditedAnnouncementDto editedAnnouncementDto)
+	[HttpPut("{id:int}/edit")]
+	public async Task<IActionResult> EditAnnouncement(int id, [FromBody] EditedAnnouncementDto editedAnnouncementDto)
 	{
 		try
 		{

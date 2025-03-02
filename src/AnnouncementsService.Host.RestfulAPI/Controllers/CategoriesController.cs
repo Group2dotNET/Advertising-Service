@@ -77,11 +77,11 @@ public class CategoriesController(ICategoriesService categoriesService, IMapper 
 	}
 
 	[HttpPost("editcategories/createcategory")]
-	public async Task<IActionResult> SaveNewCategory(EditingCategoryModel category)
+	public async Task<IActionResult> SaveNewCategory([FromBody] EditingCategoryModel category)
 	{
 		try
 		{
-			if (await categoriesService.SaveCategoryAsync(mapper.Map<FullCategoryDto>(category)))
+			if (await categoriesService.CreateCategoryAsync(mapper.Map<FullCategoryDto>(category)))
 				return Ok("Success");
 			else
 				return BadRequest("Fail");
@@ -93,15 +93,14 @@ public class CategoriesController(ICategoriesService categoriesService, IMapper 
 	}
 
 	[HttpPut("editcategories/{categoryName}")]
-	public async Task<IActionResult> SaveCategory(string categoryName, EditingCategoryModel categoryData)
+	public async Task<IActionResult> SaveCategory(string categoryName,[FromBody] EditingCategoryModel categoryData)
 	{
 		try
 		{
 			var category = await categoriesService.GetCategoryAsync(categoryName);
 			if (category == null) return NotFound( new { Message = "Категория не найдена" });
 
-
-			if (await categoriesService.SaveCategoryAsync(mapper.Map<FullCategoryDto>(categoryData)))
+			if (await categoriesService.UpdateCategoryAsync(category, mapper.Map<FullCategoryDto>(categoryData)))
 				return Ok("Success");
 			else
 				return BadRequest("Fail");

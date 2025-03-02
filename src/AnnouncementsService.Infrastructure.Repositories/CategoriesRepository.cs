@@ -28,7 +28,14 @@ public class CategoriesRepository(AnnouncementsDbContext dbContext) : ICategorie
 
 	public async Task<bool> UpdateAsync(Category entity)
 	{
-		dbContext.Update(entity);
+		var category = await dbContext.Categories.FirstOrDefaultAsync(x => x.Id == entity.Id);
+		if (category == null) return false;
+
+		category.Name = entity.Name;
+		category.ParentCategoryId = entity.ParentCategoryId;
+		category.Characteristics = entity.Characteristics;
+		category.Filtres = entity.Filtres;
+
 		return await dbContext.SaveChangesAsync() > 0;
 	}
 	#endregion

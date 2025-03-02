@@ -27,11 +27,18 @@ public interface ICategoriesService
 	Task<FullCategoryDto?> GetCategoryAsync(string categoryName);
 
 	/// <summary>
-	/// Сохранить категорию
+	/// Обновить категорию
 	/// </summary>
-	/// <param name="category">Сохраняемая категория</param>
-	/// <returns>Результат сохранения</returns>
-	Task<bool> SaveCategoryAsync(FullCategoryDto category);
+	/// <param name="category">Обновляемая категория</param>
+	/// <returns>Результат обновления</returns>
+	Task<bool> UpdateCategoryAsync(FullCategoryDto originalCategory, FullCategoryDto updatedCategory);
+
+	/// <summary>
+	/// Создать категорию
+	/// </summary>
+	/// <param name="category">Создаваемая категория</param>
+	/// <returns>Результат создания</returns>
+	Task<bool> CreateCategoryAsync(FullCategoryDto savedCategory);
 
 	/// <summary>
 	/// Удаление категории

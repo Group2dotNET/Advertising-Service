@@ -47,7 +47,7 @@ public class CategoriesService(ICategoriesRepository categoriesRepository, IMapp
 		var category = await categoriesRepository.GetCategoryByNameAsync(categoryName);
 		return category is null
 			? null
-			: new FullCategoryDto(category.Name, category.ParentCategory?.Name ?? "", category.Characteristics ?? "", category.Filtres ?? "");
+			: new FullCategoryDto(category.Id, category.Name, category.ParentCategory?.Name ?? "", category.Characteristics ?? "", category.Filtres ?? "");
 	}
 
 	public async Task<IEnumerable<ShortCategoryDto>?> GetGeneralCategoriesAsync()
@@ -58,27 +58,35 @@ public class CategoriesService(ICategoriesRepository categoriesRepository, IMapp
 		=> (await categoriesRepository.GetSubcategories(category.Name))
 			?.Select(c => new ShortCategoryDto(c.Name));
 
-	public async Task<bool> SaveCategoryAsync(FullCategoryDto savedCategory)
+	public async Task<bool> CreateCategoryAsync(FullCategoryDto savedCategory)
 	{
-		var category = await categoriesRepository.GetCategoryByNameAsync(savedCategory.Name);
-		if (category is null)
+		var parentCategoryId = savedCategory.ParentCategoryName is null 
+			? null 
+			: await categoriesRepository.GetCategoryIdByNameAsync(savedCategory.ParentCategoryName);
+		return await categoriesRepository.CreateAsync(
+			new Category()
+			{
+				Name = savedCategory.Name,
+				ParentCategoryId = parentCategoryId,
+				Characteristics = savedCategory.Characteristics,
+				Filtres = savedCategory.Filtres,
+			});
+	}
+
+	public async Task<bool> UpdateCategoryAsync(FullCategoryDto originalCategory, FullCategoryDto updatedCategory)
+	{
+		int? parentCategoryId = null;
+		if(updatedCategory.ParentCategoryName is not null)
+			parentCategoryId = await categoriesRepository.GetCategoryIdByNameAsync(updatedCategory.ParentCategoryName);
+
+		return await categoriesRepository.UpdateAsync(new()
 		{
-			var parentCategory = savedCategory.ParentCategoryName is null 
-												? null 
-												: await categoriesRepository.GetCategoryByNameAsync(savedCategory.ParentCategoryName);
-			return await categoriesRepository.CreateAsync(
-												new Category()
-												{
-													Name = savedCategory.Name,
-													ParentCategoryId = parentCategory?.Id,
-													Characteristics = savedCategory.Characteristics,
-													Filtres = savedCategory.Filtres,
-												});
-		}
-		else
-		{
-			return await categoriesRepository.UpdateAsync(category);
-		}
+			Id = originalCategory.Id,
+			Name = updatedCategory.Name,
+			ParentCategoryId = parentCategoryId,
+			Characteristics = updatedCategory.Characteristics,
+			Filtres = updatedCategory.Filtres
+		});
 	}
 
 	public async Task<int?> GetCategoryIdByNameAsync(string categoryName)
